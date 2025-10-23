@@ -2,7 +2,10 @@ export default class PetSelector {
   appContainer: HTMLDivElement;
   petsList: Record<string, string>[];
 
-  constructor(appContainer: HTMLDivElement, petsList: Record<string, string>[]) {
+  constructor(
+    appContainer: HTMLDivElement,
+    petsList: Record<string, string>[]
+  ) {
     this.appContainer = appContainer;
     this.petsList = petsList;
   }
@@ -21,14 +24,14 @@ export default class PetSelector {
         <!-- Pet selection zone -->
         <div class="pet-selector"></div>
       </div>
-    `,
+    `
     );
   }
 
   insertPets() {
     for (let i = 0; i < this.petsList.length; i++) {
       const pet = this.petsList[i];
-      
+
       this.appContainer
         .querySelector<HTMLDivElement>(".pet-selector")!
         .insertAdjacentHTML(
@@ -42,17 +45,29 @@ export default class PetSelector {
           </div>
           <button class="card__button" data-id="${i}">Adopt!</button>
         </div>
-      `,
+      `
         );
 
-      const button: HTMLButtonElement = this.appContainer.querySelector(`button[data-id="${i}"]`)!;
-      button.addEventListener("click", this.#onAdoptButtonAction);
+      const button: HTMLButtonElement = this.appContainer.querySelector(
+        `.card__button[data-id="${i}"]`
+      )!;
+      button.addEventListener("click", this.#onAdoptButtonAction.bind(this));
     }
   }
 
   #onAdoptButtonAction(event: Event) {
     const button = event.target as HTMLButtonElement;
     const petID = Number(button.dataset.id);
-    console.log(`Pet selected: ${this.petsList[petID]}`);
+    button.classList.add("card__button--adopted");
+    button.textContent = "Adopted!";
+    console.log(`Pet selected: ${JSON.stringify(this.petsList[petID])}`);
+
+    /* Disable every button */
+    for (let i = 0; i < this.petsList.length; i++) {
+      const btn: HTMLButtonElement = this.appContainer.querySelector(
+        `.card__button[data-id="${i}"]`
+      )!;
+      btn.disabled = true;
+    }
   }
 }

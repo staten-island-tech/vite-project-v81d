@@ -20,7 +20,7 @@ export default class StarryBackground {
     this.appContainer.prepend(canvas);
 
     const canvasElement = this.appContainer.querySelector(
-      "#background-canvas",
+      "#background-canvas"
     ) as HTMLCanvasElement;
     const context: CanvasRenderingContext2D = canvasElement.getContext("2d")!;
 
