@@ -1,0 +1,28 @@
+:root {
+  /* Background */
+  --color-background: #0a0a0a;
+  --color-background-alt: #202020;
+  --color-background-alt-transparent: rgba(32, 32, 32, 0.25);
+
+  /* Foreground */
+  --color-foreground: white;
+
+  /* Buttons */
+  --color-button-primary: white;
+  --color-button-hover: #d2d2d2;
+  --color-button-active: #b1b1b1;
+  --color-button-text: var(--color-background-soft);
+}
+
+.light {
+  /* Background */
+  --color-background: #1f1f1f;
+  --color-background-alt: #787878;
+  --color-background-alt-transparent: rgba(32, 32, 32, 0.25);
+
+  /* Foreground */
+  --color-foreground: white;
+
+  /* Buttons */
+  --color-button-text: var(--color-background-soft);
+}
