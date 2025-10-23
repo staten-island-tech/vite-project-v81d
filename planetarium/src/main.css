@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+* {
+  @apply uppercase;
+  font-family: "Space Mono", monospace;
+}
+
+html,
+body,
+#app {
+  @apply w-full h-full p-0 m-0;
+}
+
+#app {
+  background-color: var(--color-background);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  color: var(--color-foreground);
+}

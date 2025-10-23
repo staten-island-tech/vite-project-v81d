@@ -1,6 +1,12 @@
 [
   {
     "name": "Earth",
-    "description": "The third planet from the Sun and the only astronomical object known to harbor life."
+    "image": "/src/assets/images/pets/earth.gif",
+    "description": "The blue and living sphere home to all our wonders."
+  },
+  {
+    "name": "Saturn",
+    "image": "/src/assets/images/pets/saturn.gif",
+    "description": "A giant crowned with its celestial rings of glory."
   }
 ]

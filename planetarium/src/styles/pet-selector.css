@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+.app__pet-selector-interface {
+  @apply relative z-1 flex flex-col justify-center items-center text-center gap-10 w-full h-full;
+}
+
+.pet-selector {
+  @apply flex flex-wrap justify-center items-center text-center gap-5;
+}
+
+.pet-selector__card {
+  @apply flex flex-col w-100 h-90;
+}
+
+.pet-selector__card .card__content {
+  @apply flex flex-col items-center text-center gap-5 p-10 h-full rounded-t-2xl;
+  background-color: var(--color-background-alt-transparent);
+  border-top: 1px solid var(--color-foreground);
+  border-right: 1px solid var(--color-foreground);
+  border-left: 1px solid var(--color-foreground);
+}
+
+.pet-selector__card .card__content .card__image {
+  @apply w-35 h-35;
+}
+
+.pet-selector__card .card__button {
+  @apply w-full h-10 text-lg font-bold rounded-b-2xl;
+  background-color: var(--color-button-primary);
+  color: var(--color-button-text);
+}
+
+.pet-selector__card .card__button:hover {
+  background-color: var(--color-button-hover);
+}
+
+.pet-selector__card .card__button:active {
+  background-color: var(--color-button-active);
+}
