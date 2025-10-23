@@ -7,6 +7,16 @@
   {
     "name": "Saturn",
     "image": "/src/assets/images/pets/saturn.gif",
-    "description": "A giant crowned with its celestial rings of glory."
+    "description": "A giant crowned with celestial rings of glory."
+  },
+  {
+    "name": "Kepler-16b",
+    "image": "/src/assets/images/pets/kepler-16b.gif",
+    "description": "A beast cradled by twins under a double sunset."
+  },
+  {
+    "name": "CoRoT-7b",
+    "image": "/src/assets/images/pets/corot-7b.gif",
+    "description": "A rocky world of lava drifting with fury."
   }
 ]
