@@ -27,6 +27,11 @@ export default class StarryBackground {
     window.addEventListener("resize", () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+
+      for (const dot of dots) {
+        dot.x = Math.random() * canvas.width;
+        dot.y = Math.random() * canvas.height;
+      }
     });
 
     const dots: Dot[] = [];
