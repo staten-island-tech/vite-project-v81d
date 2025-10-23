@@ -47,6 +47,7 @@
 
 .app__pet-selector-interface .pet-selector__card .card__button {
   @apply w-full h-15 text-xl font-bold rounded-b-2xl;
+  cursor: pointer;
   background-color: var(--color-button-primary);
   color: var(--color-button-text);
 }

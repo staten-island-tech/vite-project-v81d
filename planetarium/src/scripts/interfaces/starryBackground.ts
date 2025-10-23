@@ -37,11 +37,11 @@ export default class StarryBackground {
     const dots: Dot[] = [];
 
     for (let i = 0; i < dotCount; i++) {
-      const radius = Math.random() * 2 + 1; // 1-3
+      const radius = Math.random() * 2 + 1;
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height;
-      const vx = (Math.random() - 0.5) * 1;
-      const vy = (Math.random() - 0.5) * 1;
+      const vx = (Math.random() - 0.1) * 0.1;
+      const vy = (Math.random() - 0.1) * 0.1;
       dots.push(new Dot(x, y, vx, vy, radius));
     }
 
@@ -78,7 +78,7 @@ class Dot {
   draw(context: CanvasRenderingContext2D) {
     context.beginPath();
     context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    context.fillStyle = "rgba(255, 255, 255, 0.25)";
+    context.fillStyle = "rgba(255, 255, 255, 0.5)";
     context.fill();
   }
 

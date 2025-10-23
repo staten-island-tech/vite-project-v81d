@@ -1,10 +1,10 @@
-import pets from "../assets/json/planets.json";
-
 export default class PetSelector {
   appContainer: HTMLDivElement;
+  petsList: Record<string, string>[];
 
-  constructor(appContainer: HTMLDivElement) {
+  constructor(appContainer: HTMLDivElement, petsList: Record<string, string>[]) {
     this.appContainer = appContainer;
+    this.petsList = petsList;
   }
 
   setupInterface() {
@@ -26,8 +26,9 @@ export default class PetSelector {
   }
 
   insertPets() {
-    for (let i = 0; i < pets.length; i++) {
-      const pet = pets[i];
+    for (let i = 0; i < this.petsList.length; i++) {
+      const pet = this.petsList[i];
+      
       this.appContainer
         .querySelector<HTMLDivElement>(".pet-selector")!
         .insertAdjacentHTML(
@@ -39,10 +40,19 @@ export default class PetSelector {
             <img class="card__image" src="${pet["image"]}">
             <p class="text-lg">${pet["description"]}</p>
           </div>
-          <button class="card__button">Adopt!</button>
+          <button class="card__button" data-id="${i}">Adopt!</button>
         </div>
       `,
         );
+
+      const button: HTMLButtonElement = this.appContainer.querySelector(`button[data-id="${i}"]`)!;
+      button.addEventListener("click", this.#onAdoptButtonAction);
     }
+  }
+
+  #onAdoptButtonAction(event: Event) {
+    const button = event.target as HTMLButtonElement;
+    const petID = Number(button.dataset.id);
+    console.log(`Pet selected: ${this.petsList[petID]}`);
   }
 }
