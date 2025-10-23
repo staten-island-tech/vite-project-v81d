@@ -5,11 +5,11 @@
   overflow-y: auto;
 }
 
-.app__pet-selector-interface .pet-selector-interface__labels {
+.pet-selector-interface__labels {
   @apply flex flex-col justify-center items-center text-center gap-5;
 }
 
-.app__pet-selector-interface .pet-selector {
+.pet-selector {
   @apply grid items-stretch text-center gap-5;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   min-width: 0;
@@ -17,12 +17,12 @@
 
 /* Responsiveness */
 @media (max-width: 1050px) {
-  .app__pet-selector-interface .pet-selector {
+  .pet-selector {
     @apply flex flex-col gap-10;
   }
 }
 
-.app__pet-selector-interface .pet-selector__card {
+.pet-selector__card {
   @apply flex flex-col max-w-100 min-h-105;
   min-width: 0;
 }
@@ -33,7 +33,7 @@
   }
 }
 
-.app__pet-selector-interface .pet-selector__card .card__content {
+.card__content {
   @apply flex flex-col items-center text-center gap-10 p-10 h-full rounded-t-2xl;
   background-color: var(--color-background-alt-transparent);
   border-top: 1px solid var(--color-foreground);
@@ -41,21 +41,33 @@
   border-right: 1px solid var(--color-foreground);
 }
 
-.app__pet-selector-interface .pet-selector__card .card__content .card__image {
+.card__image {
   @apply w-35 h-35;
 }
 
-.app__pet-selector-interface .pet-selector__card .card__button {
+.card__button {
   @apply w-full h-15 text-xl font-bold rounded-b-2xl;
   cursor: pointer;
   background-color: var(--color-button-primary);
   color: var(--color-button-text);
 }
 
-.app__pet-selector-interface .pet-selector__card .card__button:hover {
+.card__button:hover {
   background-color: var(--color-button-hover);
 }
 
-.app__pet-selector-interface .pet-selector__card .card__button:active {
+.card__button:active {
   background-color: var(--color-button-active);
+}
+
+.card__button:disabled {
+  cursor: not-allowed;
+}
+
+.card__button:not(.card__button--adopted):disabled {
+  background-color: var(--color-button-disabled);
+}
+
+.card__button--adopted:disabled {
+  background-color: var(--color-button-primary);
 }
