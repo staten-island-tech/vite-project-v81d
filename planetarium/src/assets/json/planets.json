@@ -2,7 +2,11 @@
   {
     "name": "Earth",
     "image": "/images/pets/earth.gif",
-    "description": "The blue and living sphere home to all our wonders."
+    "description": "The blue and living sphere home to all our wonders.",
+    "intro": [
+      "Earth is the rocky, terrestial planet we call home.",
+      "It sits as the third planet from the Sun and is the only planet we know that bears life."
+    ]
   },
   {
     "name": "Saturn",

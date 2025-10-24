@@ -100,6 +100,8 @@ export default class PetSelector {
   }
 
   #playCardSelectAnimation(card: HTMLDivElement, petID: number) {
+    this.petSelectorInterface!.style.overflow = "hidden";
+
     const rect: DOMRect = card.getBoundingClientRect();
     const placeholder: HTMLDivElement = document.createElement("div");
 
@@ -154,11 +156,11 @@ export default class PetSelector {
       }
     });
 
-    window.setTimeout(() => {
+    setTimeout(() => {
       card.style.top = `${-2 * viewportCenterTop}px`;
       card.style.opacity = "0";
       for (const dot of this.starryBackground!.dots!) {
-
+        dot.slideUp(35, 1000);
       }
     }, 2000);
 
@@ -168,5 +170,8 @@ export default class PetSelector {
   #runIntro(card: HTMLDivElement, petID: number) {
     // TODO: create intro sequence
     console.log(card, petID);
+    for (const line of this.petsArray[petID]["intro"]) {
+      console.log(line);
+    }
   }
 }
