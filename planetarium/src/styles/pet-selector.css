@@ -27,17 +27,10 @@
   @apply flex flex-col max-w-100 min-h-105;
   min-width: 0;
   transition:
-    top 1s ease,
-    left 1s ease,
+    top 0.5s ease,
+    left 0.5s ease,
+    transform 0.5s ease,
     opacity 0.5s ease;
-}
-
-.pet-selector__card--centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 999;
 }
 
 @media (max-width: 450px) {
@@ -84,4 +77,16 @@
 
 .card__button--adopted:disabled {
   background-color: var(--color-button-primary);
+}
+
+.pet-selector-interface__intro-label {
+  @apply fixed text-xl;
+  width: 75%;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition:
+    top 0.5s ease,
+    opacity 0.5s ease;
 }

@@ -21,7 +21,7 @@ export default class StarryBackground {
     this.appContainer.prepend(canvas);
 
     const canvasElement = this.appContainer.querySelector(
-      "#background-canvas"
+      "#background-canvas",
     ) as HTMLCanvasElement;
     const context: CanvasRenderingContext2D = canvasElement.getContext("2d")!;
 
@@ -93,18 +93,43 @@ class Dot {
     if (this.y <= 0 || this.y >= canvasHeight) this.vy *= -1;
   }
 
-  slideUp(distance: number, duration: number) {
+  slide(direction: string, distance: number, duration: number) {
+    /* u: up
+     * d: down
+     * l: left
+     * r: right
+     */
+    if (!["u", "d", "l", "r"].includes(direction.toLowerCase()))
+      throw new Error(
+        `"${direction}" is not a valid direction. Allowed directions include: u, d, l, r.`,
+      );
+
+    const startX = this.x;
     const startY = this.y;
     const startTime = performance.now();
 
-    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);  // ease-out bezier curve
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3); // ease-out bezier curve
 
     const animate = (time: number) => {
       const elapsed = time - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const eased = easeOutCubic(progress);
 
-      this.y = startY - distance * eased;
+      switch (direction.toLowerCase()) {
+        case "u":
+          this.y = startY - distance * eased;
+          break;
+        case "d":
+          this.y = startY + distance * eased;
+          break;
+        case "l":
+          this.x = startX - distance * eased;
+          break;
+        case "r":
+          this.x = startX + distance * eased;
+          break;
+        // No default since direction is validated anyway
+      }
 
       if (progress < 1) {
         requestAnimationFrame(animate);

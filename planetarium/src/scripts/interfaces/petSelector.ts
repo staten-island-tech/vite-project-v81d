@@ -1,21 +1,22 @@
 /* Wrap the background class instance in the PetSelector class.
  * Since some event listeners must take control over the background effects, we have to handle the background here.
  */
-import StarryBackground from "./starryBackground.ts";
 
 export default class PetSelector {
   appContainer: HTMLDivElement;
-  starryBackground?: StarryBackground;
-  petsArray: Record<string, string>[];
+  starryBackground: any;
+  petsArray: Record<string, any>[];
   petSelectorInterface?: HTMLDivElement;
   petSelector?: HTMLDivElement;
-  petSelectorIntro?: HTMLDivElement;
+  petSelectorIntroLabel?: HTMLDivElement;
 
   constructor(
     appContainer: HTMLDivElement,
-    petsArray: Record<string, string>[],
+    starryBackground: any,
+    petsArray: Record<string, any>[],
   ) {
     this.appContainer = appContainer;
+    this.starryBackground = starryBackground;
     this.petsArray = petsArray;
   }
 
@@ -31,11 +32,10 @@ export default class PetSelector {
           </p>
         </div>
         <div class="pet-selector"></div>
-        <div class="pet-selector-intro"></div>
+        <p class="pet-selector-interface__intro-label"></p>
       </div>
     `,
     );
-    this.starryBackground = new StarryBackground(this.appContainer);
     this.starryBackground.generateBackground(50);
     this.petSelectorInterface = this.appContainer.querySelector(
       ".app__pet-selector-interface",
@@ -43,8 +43,8 @@ export default class PetSelector {
     this.petSelector = this.petSelectorInterface.querySelector(
       ".pet-selector",
     ) as HTMLDivElement;
-    this.petSelectorIntro = this.petSelectorInterface.querySelector(
-      ".pet-selector-intro",
+    this.petSelectorIntroLabel = this.petSelectorInterface.querySelector(
+      ".pet-selector-interface__intro-label",
     ) as HTMLDivElement;
   }
 
@@ -59,9 +59,9 @@ export default class PetSelector {
           `
         <div class="pet-selector__card">
           <div class="card__content">
-            <h3 class="text-3xl font-bold">${pet["name"]}</h3>
-            <img class="card__image" src="${pet["image"]}">
-            <p class="text-lg">${pet["description"]}</p>
+            <h3 class="text-3xl font-bold">${pet.name}</h3>
+            <img class="card__image" src="${pet.image}">
+            <p class="text-lg">${pet.description}</p>
           </div>
           <button class="card__button" data-id="${i}">Adopt!</button>
         </div>
@@ -105,9 +105,6 @@ export default class PetSelector {
     const rect: DOMRect = card.getBoundingClientRect();
     const placeholder: HTMLDivElement = document.createElement("div");
 
-    const viewportCenterTop: number = window.innerHeight / 2 - rect.height / 2;
-    const viewportCenterLeft: number = window.innerWidth / 2 - rect.width / 2;
-
     placeholder.style.width = `${rect.width}px`;
     placeholder.style.height = `${rect.height}px`;
     card.parentElement!.insertBefore(placeholder, card);
@@ -126,18 +123,9 @@ export default class PetSelector {
      */
     card.offsetHeight;
 
-    card.style.top = `${viewportCenterTop}px`;
-    card.style.left = `${viewportCenterLeft}px`;
-
-    /* If the window is resized during the animation, the card does not automatically adapt its position.
-     * To remedy this, we should recalculate the viewport dimensions and manually adjust the card position.
-     */
-    window.addEventListener("resize", () => {
-      const newTop = window.innerHeight / 2 - rect.height / 2;
-      const newLeft = window.innerWidth / 2 - rect.width / 2;
-      card.style.top = `${newTop}px`;
-      card.style.left = `${newLeft}px`;
-    });
+    card.style.top = `50%`;
+    card.style.left = `50%`;
+    card.style.transform = `translate(-50%, -50%)`;
 
     const petSelectorInterfaceLabels: HTMLDivElement =
       this.petSelectorInterface!.querySelector(
@@ -156,22 +144,44 @@ export default class PetSelector {
       }
     });
 
+    // Slide out card after 2 seconds, then begin intro scene
     setTimeout(() => {
-      card.style.top = `${-2 * viewportCenterTop}px`;
+      card.style.top = `25%`;
       card.style.opacity = "0";
-      for (const dot of this.starryBackground!.dots!) {
-        dot.slideUp(35, 1000);
-      }
-    }, 2000);
 
-    this.#runIntro(card, petID);
+      for (const dot of this.starryBackground!.dots!) {
+        dot.slide("u", 50, 1000);
+      }
+
+      setTimeout(() => (card.style.display = "none"), 500);
+
+      this.#runIntro(card, petID);
+    }, 2000);
   }
 
-  #runIntro(card: HTMLDivElement, petID: number) {
-    // TODO: create intro sequence
-    console.log(card, petID);
-    for (const line of this.petsArray[petID]["intro"]) {
-      console.log(line);
+  async #runIntro(card: HTMLDivElement, petID: number) {
+    const delay = (ms: number) =>
+      new Promise((resolve) => setTimeout(resolve, ms));
+
+    for (const line of this.petsArray[petID].intro) {
+      await delay(500);
+
+      this.petSelectorIntroLabel!.style.top = "50%";
+      this.petSelectorIntroLabel!.style.opacity = "1"; // appear
+      this.petSelectorIntroLabel!.textContent = line;
+
+      await delay(5000);
+
+      this.petSelectorIntroLabel!.style.top = "45%";
+      this.petSelectorIntroLabel!.style.opacity = "0"; // disappear
+
+      for (const dot of this.starryBackground!.dots!) {
+        dot.slide("u", 25, 1000);
+      }
+
+      await delay(500);
+
+      this.petSelectorIntroLabel!.style.top = "55%";
     }
   }
 }
