@@ -19,7 +19,7 @@
   /* Background */
   --color-background: #1f1f1f;
   --color-background-alt: #787878;
-  --color-background-alt-transparent: rgba(32, 32, 32, 0.25);
+  --color-background-alt-transparent: rgba(120, 120, 120, 0.25);
 
   /* Foreground */
   --color-foreground: white;
