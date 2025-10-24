@@ -1,5 +1,11 @@
+/* Wrap the background class instance in the PetSelector class.
+ * Since some event listeners must take control over the background effects, we have to handle the background here.
+ */
+import StarryBackground from "./starryBackground.ts";
+
 export default class PetSelector {
   appContainer: HTMLDivElement;
+  starryBackground?: StarryBackground;
   petsArray: Record<string, string>[];
   petSelectorInterface?: HTMLDivElement;
   petSelector?: HTMLDivElement;
@@ -29,6 +35,8 @@ export default class PetSelector {
       </div>
     `,
     );
+    this.starryBackground = new StarryBackground(this.appContainer);
+    this.starryBackground.generateBackground(50);
     this.petSelectorInterface = this.appContainer.querySelector(
       ".app__pet-selector-interface",
     ) as HTMLDivElement;
@@ -149,6 +157,9 @@ export default class PetSelector {
     window.setTimeout(() => {
       card.style.top = `${-2 * viewportCenterTop}px`;
       card.style.opacity = "0";
+      for (const dot of this.starryBackground!.dots!) {
+
+      }
     }, 2000);
 
     this.#runIntro(card, petID);
