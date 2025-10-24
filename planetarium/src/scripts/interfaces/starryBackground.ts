@@ -1,5 +1,6 @@
 export default class StarryBackground {
   appContainer: HTMLDivElement;
+  dots?: Dot[];
 
   constructor(appContainer: HTMLDivElement) {
     this.appContainer = appContainer;
@@ -28,13 +29,13 @@ export default class StarryBackground {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      for (const dot of dots) {
+      for (const dot of this.dots!) {
         dot.x = Math.random() * canvas.width;
         dot.y = Math.random() * canvas.height;
       }
     });
 
-    const dots: Dot[] = [];
+    this.dots = [];
 
     for (let i = 0; i < dotCount; i++) {
       const radius = Math.random() * 2 + 1;
@@ -42,13 +43,13 @@ export default class StarryBackground {
       const y = Math.random() * canvas.height;
       const vx = (Math.random() - 0.2) * 0.2;
       const vy = (Math.random() - 0.2) * 0.2;
-      dots.push(new Dot(x, y, vx, vy, radius));
+      this.dots.push(new Dot(x, y, vx, vy, radius));
     }
 
     const animate = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
 
-      for (const dot of dots) {
+      for (const dot of this.dots!) {
         dot.update(canvas.width, canvas.height);
         dot.draw(context);
       }
