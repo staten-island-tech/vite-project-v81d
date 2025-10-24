@@ -20,7 +20,7 @@ export default class StarryBackground {
     this.appContainer.prepend(canvas);
 
     const canvasElement = this.appContainer.querySelector(
-      "#background-canvas"
+      "#background-canvas",
     ) as HTMLCanvasElement;
     const context: CanvasRenderingContext2D = canvasElement.getContext("2d")!;
 
@@ -40,8 +40,8 @@ export default class StarryBackground {
       const radius = Math.random() * 2 + 1;
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height;
-      const vx = (Math.random() - 0.1) * 0.1;
-      const vy = (Math.random() - 0.1) * 0.1;
+      const vx = (Math.random() - 0.2) * 0.2;
+      const vy = (Math.random() - 0.2) * 0.2;
       dots.push(new Dot(x, y, vx, vy, radius));
     }
 
@@ -79,6 +79,8 @@ class Dot {
     context.beginPath();
     context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     context.fillStyle = "rgba(255, 255, 255, 0.5)";
+    context.shadowBlur = 5;
+    context.shadowColor = "white";
     context.fill();
   }
 

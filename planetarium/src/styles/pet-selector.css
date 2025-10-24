@@ -7,6 +7,7 @@
 
 .pet-selector-interface__labels {
   @apply flex flex-col justify-center items-center text-center gap-5;
+  transition: opacity 0.5s ease;
 }
 
 .pet-selector {
@@ -25,9 +26,21 @@
 .pet-selector__card {
   @apply flex flex-col max-w-100 min-h-105;
   min-width: 0;
+  transition:
+    top 1s ease,
+    left 1s ease,
+    opacity 0.5s ease;
 }
 
-@media (max-width: 400px) {
+.pet-selector__card--centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+}
+
+@media (max-width: 450px) {
   .app__pet-selector-interface {
     @apply p-5;
   }
@@ -39,6 +52,7 @@
   border-top: 1px solid var(--color-foreground);
   border-left: 1px solid var(--color-foreground);
   border-right: 1px solid var(--color-foreground);
+  backdrop-filter: blur(3px);
 }
 
 .card__image {
