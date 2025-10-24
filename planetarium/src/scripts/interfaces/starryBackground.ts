@@ -21,7 +21,7 @@ export default class StarryBackground {
     this.appContainer.prepend(canvas);
 
     const canvasElement = this.appContainer.querySelector(
-      "#background-canvas",
+      "#background-canvas"
     ) as HTMLCanvasElement;
     const context: CanvasRenderingContext2D = canvasElement.getContext("2d")!;
 
@@ -91,5 +91,26 @@ class Dot {
 
     if (this.x <= 0 || this.x >= canvasWidth) this.vx *= -1;
     if (this.y <= 0 || this.y >= canvasHeight) this.vy *= -1;
+  }
+
+  slideUp(distance: number, duration: number) {
+    const startY = this.y;
+    const startTime = performance.now();
+
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);  // ease-out bezier curve
+
+    const animate = (time: number) => {
+      const elapsed = time - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = easeOutCubic(progress);
+
+      this.y = startY - distance * eased;
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    requestAnimationFrame(animate);
   }
 }
