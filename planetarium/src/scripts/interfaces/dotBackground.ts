@@ -1,4 +1,4 @@
-export default class StarryBackground {
+export default class DotBackground {
   appContainer: HTMLDivElement;
   dots?: Dot[];
 
@@ -58,6 +58,10 @@ export default class StarryBackground {
     };
 
     animate();
+  }
+
+  slideAll(direction: string, distance: number, duration: number) {
+    for (const dot of this.dots!) dot.slide(direction, distance, duration);
   }
 }
 
