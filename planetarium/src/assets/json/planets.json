@@ -4,23 +4,43 @@
     "image": "/images/pets/earth.gif",
     "description": "The blue and living sphere home to all our wonders.",
     "intro": [
-      "Earth is the rocky, terrestial planet we call home.",
-      "It sits as the third planet from the Sun and is the only planet we know that bears life."
+      "Earth is the rocky, terrestial planet we call home, covered mostly in liquid water.",
+      "It sits as the third planet from the Sun and is the only planet we know that bears life.",
+      "Earth's hospitable temperature and mix of chemicals are what make life possible.",
+      "Welcome to planetarium! Take good care of Earth and watch as it grows into the magnificent world that it is today."
     ]
   },
   {
     "name": "Saturn",
     "image": "/images/pets/saturn.gif",
-    "description": "A giant crowned with celestial rings of glory."
+    "description": "A giant crowned with celestial rings of glory.",
+    "intro": [
+      "Saturn is a gas giant and the sixth planet from our Sun made of hydrogen and helium.",
+      "Its famous ring system is made of countless chunks of ice and rock.",
+      "It hosts a multitude of moons such as Titan, a world with a thick atmosphere and liquid methane lakes.",
+      "Welcome to planetarium! Can you grow Saturn and sustain its beautiful system of rings?"
+    ]
   },
   {
     "name": "Kepler-16b",
     "image": "/images/pets/kepler-16b.gif",
-    "description": "A beast cradled by twins under a double sunset."
+    "description": "A beast cradled by twins under a double sunset.",
+    "intro": [
+      "Kepler-16b is a rare gas giant orbiting not one, but two stars.",
+      "If you stood under the planet's cloudy atmosphere, you could witness a dazzling double sunset and double sunrise!",
+      "The planet is named after NASA's Kepler spacecraft, which itself was named after the astronomer Johannes Kelper.",
+      "Welcome to planetarium! Care for this world under its twin suns and witness a unique but legendary solar dance."
+    ]
   },
   {
     "name": "CoRoT-7b",
     "image": "/images/pets/corot-7b.gif",
-    "description": "A rocky world of lava drifting with fury."
+    "description": "A rocky world of lava drifting with fury.",
+    "intro": [
+      "CoRoT-7b is a rocky, terrestrial planet locked in a terrifyingly close orbit around its star.",
+      "Its surface is a hellscape of molten rock and lava, with temperatures hot enough to vaporize stone.",
+      "One side endlessly faces its star every day, while the other side is deadlocked in a cold, infinite night.",
+      "Welcome to planetarium! Can you tame this dual-sided planet and survive its fiery orbit?"
+    ]
   }
 ]
