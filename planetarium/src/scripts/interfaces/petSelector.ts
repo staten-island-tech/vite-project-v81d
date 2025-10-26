@@ -4,7 +4,7 @@
 
 export default class PetSelector {
   appContainer: HTMLDivElement;
-  starryBackground: any;
+  dotBackground: any;
   petsArray: Record<string, any>[];
   petSelectorInterface?: HTMLDivElement;
   petSelector?: HTMLDivElement;
@@ -12,11 +12,11 @@ export default class PetSelector {
 
   constructor(
     appContainer: HTMLDivElement,
-    starryBackground: any,
+    dotBackground: any,
     petsArray: Record<string, any>[],
   ) {
     this.appContainer = appContainer;
-    this.starryBackground = starryBackground;
+    this.dotBackground = dotBackground;
     this.petsArray = petsArray;
   }
 
@@ -36,7 +36,7 @@ export default class PetSelector {
       </div>
     `,
     );
-    this.starryBackground.generateBackground(50);
+    this.dotBackground.generateBackground(50);
     this.petSelectorInterface = this.appContainer.querySelector(
       ".app__pet-selector-interface",
     ) as HTMLDivElement;
@@ -146,25 +146,23 @@ export default class PetSelector {
 
     // Slide out card after 2 seconds, then begin intro scene
     setTimeout(() => {
-      card.style.top = `25%`;
+      card.style.top = `40%`;
       card.style.opacity = "0";
 
-      for (const dot of this.starryBackground!.dots!) {
-        dot.slide("u", 50, 1000);
-      }
+      this.dotBackground!.slideAll("u", 50, 1000); // slide all dots up by 50 px in 1 s
 
       setTimeout(() => (card.style.display = "none"), 500);
-
-      this.#runIntro(card, petID);
+      setTimeout(() => this.#runIntro(petID), 500);
     }, 2000);
   }
 
-  async #runIntro(card: HTMLDivElement, petID: number) {
+  async #runIntro(petID: number) {
     const delay = (ms: number) =>
       new Promise((resolve) => setTimeout(resolve, ms));
 
     for (const line of this.petsArray[petID].intro) {
-      await delay(500);
+      this.petSelectorIntroLabel!.style.transition =
+        "top 0.5s ease, opacity 0.5s ease"; // reset transition
 
       this.petSelectorIntroLabel!.style.top = "50%";
       this.petSelectorIntroLabel!.style.opacity = "1"; // appear
@@ -175,13 +173,17 @@ export default class PetSelector {
       this.petSelectorIntroLabel!.style.top = "45%";
       this.petSelectorIntroLabel!.style.opacity = "0"; // disappear
 
-      for (const dot of this.starryBackground!.dots!) {
-        dot.slide("u", 25, 1000);
-      }
+      this.dotBackground!.slideAll("u", 25, 1000);
 
       await delay(500);
 
+      /* Set transition to "none" to skip the 500 ms delay when top shifts from 45% to 55%.
+       * We will bring back the transition on the next iteration so it's not permanently gone.
+       */
+      this.petSelectorIntroLabel!.style.transition = "none";
       this.petSelectorIntroLabel!.style.top = "55%";
+
+      this.petSelectorIntroLabel!.offsetHeight; // reflow
     }
   }
 }
