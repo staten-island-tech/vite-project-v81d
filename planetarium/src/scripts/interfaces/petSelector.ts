@@ -9,11 +9,13 @@ export default class PetSelector {
   petSelectorInterface?: HTMLDivElement;
   petSelector?: HTMLDivElement;
   petSelectorIntroLabel?: HTMLDivElement;
+  selectedPetID: number = 0;
+  done: boolean = false;
 
   constructor(
     appContainer: HTMLDivElement,
     dotBackground: any,
-    petsArray: Record<string, any>[],
+    petsArray: Record<string, any>[]
   ) {
     this.appContainer = appContainer;
     this.dotBackground = dotBackground;
@@ -34,17 +36,17 @@ export default class PetSelector {
         <div class="pet-selector"></div>
         <p class="pet-selector-interface__intro-label"></p>
       </div>
-    `,
+    `
     );
     this.dotBackground.generateBackground(50);
     this.petSelectorInterface = this.appContainer.querySelector(
-      ".app__pet-selector-interface",
+      ".app__pet-selector-interface"
     ) as HTMLDivElement;
     this.petSelector = this.petSelectorInterface.querySelector(
-      ".pet-selector",
+      ".pet-selector"
     ) as HTMLDivElement;
     this.petSelectorIntroLabel = this.petSelectorInterface.querySelector(
-      ".pet-selector-interface__intro-label",
+      ".pet-selector-interface__intro-label"
     ) as HTMLDivElement;
   }
 
@@ -65,11 +67,11 @@ export default class PetSelector {
           </div>
           <button class="card__button" data-id="${i}">Adopt!</button>
         </div>
-      `,
+      `
         );
 
       const button: HTMLButtonElement = this.petSelector!.querySelector(
-        `.card__button[data-id="${i}"]`,
+        `.card__button[data-id="${i}"]`
       )!;
       button.addEventListener("click", this.#onAdoptButtonAction.bind(this));
     }
@@ -90,7 +92,7 @@ export default class PetSelector {
     // Disable every button
     for (let i = 0; i < this.petsArray.length; i++) {
       const btn: HTMLButtonElement = this.petSelector!.querySelector(
-        `.card__button[data-id="${i}"]`,
+        `.card__button[data-id="${i}"]`
       )!;
       btn.disabled = true;
     }
@@ -129,7 +131,7 @@ export default class PetSelector {
 
     const petSelectorInterfaceLabels: HTMLDivElement =
       this.petSelectorInterface!.querySelector(
-        ".pet-selector-interface__labels",
+        ".pet-selector-interface__labels"
       )!;
     const petSelectorCards: NodeListOf<Element> =
       this.petSelector!.querySelectorAll(".pet-selector__card")!;
@@ -177,7 +179,7 @@ export default class PetSelector {
 
       if (i === intro.length - 1)
         this.dotBackground!.slideAllRandom("u", window.outerHeight, 2000, 3000);
-      else this.dotBackground!.slideAllRandom("u", 50, 1000, 1000);
+      else this.dotBackground!.slideAllRandom("u", 50, 500, 1000);
 
       await delay(500);
 
@@ -189,5 +191,10 @@ export default class PetSelector {
 
       label.offsetHeight; // reflow
     }
+
+    setTimeout(() => {
+      this.selectedPetID = petID;
+      this.done = true;
+    }, 2500);
   }
 }

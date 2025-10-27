@@ -21,7 +21,7 @@ export default class DotBackground {
     this.appContainer.prepend(canvas);
 
     const canvasElement = this.appContainer.querySelector(
-      "#background-canvas",
+      "#background-canvas"
     ) as HTMLCanvasElement;
     const context: CanvasRenderingContext2D = canvasElement.getContext("2d")!;
 
@@ -64,13 +64,13 @@ export default class DotBackground {
     direction: string,
     distance: number,
     minDuration: number,
-    maxDuration: number,
+    maxDuration: number
   ) {
     for (const dot of this.dots!)
       dot.slide(
         direction,
         distance,
-        Math.floor(Math.random() * maxDuration) + minDuration,
+        Math.floor(Math.random() * maxDuration) + minDuration
       );
   }
 }
@@ -115,7 +115,7 @@ class Dot {
      */
     if (!["u", "d", "l", "r"].includes(direction.toLowerCase()))
       throw new Error(
-        `"${direction}" is not a valid direction. Allowed directions include: u, d, l, r.`,
+        `"${direction}" is not a valid direction. Allowed directions include: u, d, l, r.`
       );
 
     const startX = this.x;
