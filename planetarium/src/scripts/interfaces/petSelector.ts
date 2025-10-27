@@ -149,7 +149,7 @@ export default class PetSelector {
       card.style.top = `40%`;
       card.style.opacity = "0";
 
-      this.dotBackground!.slideAll("u", 50, 1000); // slide all dots up by 50 px in 1 s
+      this.dotBackground!.slideAllRandom("u", 50, 500, 1000); // slide all dots up by 50 px in 1 s
 
       setTimeout(() => (card.style.display = "none"), 500);
       setTimeout(() => this.#runIntro(petID), 500);
@@ -160,30 +160,34 @@ export default class PetSelector {
     const delay = (ms: number) =>
       new Promise((resolve) => setTimeout(resolve, ms));
 
-    for (const line of this.petsArray[petID].intro) {
-      this.petSelectorIntroLabel!.style.transition =
-        "top 0.5s ease, opacity 0.5s ease"; // reset transition
+    const intro = this.petsArray[petID].intro;
+    let label = this.petSelectorIntroLabel!;
 
-      this.petSelectorIntroLabel!.style.top = "50%";
-      this.petSelectorIntroLabel!.style.opacity = "1"; // appear
-      this.petSelectorIntroLabel!.textContent = line;
+    for (let i = 0; i < intro.length; i++) {
+      label.style.transition = "top 0.5s ease, opacity 0.5s ease"; // reset transition
+
+      label.style.top = "50%";
+      label.style.opacity = "1"; // appear
+      label.textContent = intro[i];
 
       await delay(5000);
 
-      this.petSelectorIntroLabel!.style.top = "45%";
-      this.petSelectorIntroLabel!.style.opacity = "0"; // disappear
+      label.style.top = "45%";
+      label.style.opacity = "0"; // disappear
 
-      this.dotBackground!.slideAll("u", 25, 1000);
+      if (i === intro.length - 1)
+        this.dotBackground!.slideAllRandom("u", window.outerHeight, 2000, 3000);
+      else this.dotBackground!.slideAllRandom("u", 50, 1000, 1000);
 
       await delay(500);
 
       /* Set transition to "none" to skip the 500 ms delay when top shifts from 45% to 55%.
        * We will bring back the transition on the next iteration so it's not permanently gone.
        */
-      this.petSelectorIntroLabel!.style.transition = "none";
-      this.petSelectorIntroLabel!.style.top = "55%";
+      label.style.transition = "none";
+      label.style.top = "55%";
 
-      this.petSelectorIntroLabel!.offsetHeight; // reflow
+      label.offsetHeight; // reflow
     }
   }
 }

@@ -60,8 +60,18 @@ export default class DotBackground {
     animate();
   }
 
-  slideAll(direction: string, distance: number, duration: number) {
-    for (const dot of this.dots!) dot.slide(direction, distance, duration);
+  slideAllRandom(
+    direction: string,
+    distance: number,
+    minDuration: number,
+    maxDuration: number,
+  ) {
+    for (const dot of this.dots!)
+      dot.slide(
+        direction,
+        distance,
+        Math.floor(Math.random() * maxDuration) + minDuration,
+      );
   }
 }
 
@@ -97,7 +107,7 @@ class Dot {
     if (this.y <= 0 || this.y >= canvasHeight) this.vy *= -1;
   }
 
-  slide(direction: string, distance: number, duration: number) {
+  async slide(direction: string, distance: number, duration: number) {
     /* u: up
      * d: down
      * l: left
@@ -112,7 +122,8 @@ class Dot {
     const startY = this.y;
     const startTime = performance.now();
 
-    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3); // ease-out bezier curve
+    // https://easings.net/#easeOutCubic
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3); // ease-out cubic bezier curve, where `t` is the progress
 
     const animate = (time: number) => {
       const elapsed = time - startTime;
