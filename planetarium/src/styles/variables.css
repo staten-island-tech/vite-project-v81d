@@ -1,4 +1,5 @@
-:root {
+:root,
+.dark-theme {
   /* Background */
   --color-background: #0a0a0a;
   --color-background-alt: #202020;
@@ -7,23 +8,35 @@
   /* Foreground */
   --color-foreground: white;
 
+  /* Background dots */
+  --color-background-dot: rgba(255, 255, 255, 0.5);
+  --color-background-dot-shadow: white;
+
   /* Buttons */
   --color-button-primary: white;
   --color-button-disabled: #999;
   --color-button-hover: #d2d2d2;
   --color-button-active: #b1b1b1;
-  --color-button-text: var(--color-background-soft);
+  --color-button-text: var(--color-background-alt);
 }
 
-.light {
+.light-theme {
   /* Background */
-  --color-background: #1f1f1f;
-  --color-background-alt: #787878;
-  --color-background-alt-transparent: rgba(120, 120, 120, 0.25);
+  --color-background: #efefef;
+  --color-background-alt: #dedede;
+  --color-background-alt-transparent: rgba(222, 222, 222, 0.25);
 
   /* Foreground */
-  --color-foreground: white;
+  --color-foreground: black;
+
+  /* Background dots */
+  --color-background-dot: rgba(0, 0, 0, 0.5);
+  --color-background-dot-shadow: black;
 
   /* Buttons */
-  --color-button-text: var(--color-background-soft);
+  --color-button-primary: black;
+  --color-button-disabled: #4d4d4d;
+  --color-button-hover: #2e2e2e;
+  --color-button-active: #3c3c3c;
+  --color-button-text: var(--color-background-alt);
 }

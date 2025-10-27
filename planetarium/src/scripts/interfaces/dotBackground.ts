@@ -21,7 +21,7 @@ export default class DotBackground {
     this.appContainer.prepend(canvas);
 
     const canvasElement = this.appContainer.querySelector(
-      "#background-canvas"
+      "#background-canvas",
     ) as HTMLCanvasElement;
     const context: CanvasRenderingContext2D = canvasElement.getContext("2d")!;
 
@@ -43,7 +43,7 @@ export default class DotBackground {
       const y = Math.random() * canvas.height;
       const vx = (Math.random() - 0.2) * 0.2;
       const vy = (Math.random() - 0.2) * 0.2;
-      this.dots.push(new Dot(x, y, vx, vy, radius));
+      this.dots.push(new Dot(canvas, x, y, vx, vy, radius));
     }
 
     const animate = () => {
@@ -64,25 +64,34 @@ export default class DotBackground {
     direction: string,
     distance: number,
     minDuration: number,
-    maxDuration: number
+    maxDuration: number,
   ) {
     for (const dot of this.dots!)
       dot.slide(
         direction,
         distance,
-        Math.floor(Math.random() * maxDuration) + minDuration
+        Math.floor(Math.random() * maxDuration) + minDuration,
       );
   }
 }
 
 class Dot {
+  canvas: HTMLCanvasElement;
   x: number;
   y: number;
   vx: number;
   vy: number;
   radius: number;
 
-  constructor(x: number, y: number, vx: number, vy: number, radius: number) {
+  constructor(
+    canvas: HTMLCanvasElement,
+    x: number,
+    y: number,
+    vx: number,
+    vy: number,
+    radius: number,
+  ) {
+    this.canvas = canvas;
     this.x = x;
     this.y = y;
     this.vx = vx;
@@ -93,9 +102,13 @@ class Dot {
   draw(context: CanvasRenderingContext2D) {
     context.beginPath();
     context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-    context.fillStyle = "rgba(255, 255, 255, 0.5)";
+    context.fillStyle = getComputedStyle(this.canvas).getPropertyValue(
+      "--color-background-dot",
+    );
     context.shadowBlur = 5;
-    context.shadowColor = "white";
+    context.shadowColor = getComputedStyle(this.canvas).getPropertyValue(
+      "--color-background-dot-shadow",
+    );
     context.fill();
   }
 
@@ -115,7 +128,7 @@ class Dot {
      */
     if (!["u", "d", "l", "r"].includes(direction.toLowerCase()))
       throw new Error(
-        `"${direction}" is not a valid direction. Allowed directions include: u, d, l, r.`
+        `"${direction}" is not a valid direction. Allowed directions include: u, d, l, r.`,
       );
 
     const startX = this.x;
