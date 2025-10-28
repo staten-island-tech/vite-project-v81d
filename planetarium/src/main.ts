@@ -24,8 +24,8 @@ async function pollPetSelectorDone() {
   }
   console.log(
     `The user selected a pet. The selected pet is: ${JSON.stringify(
-      fetchPet(petSelector.selectedPetID),
-    )}`,
+      fetchPet(petSelector.selectedPetID)
+    )}`
   );
 }
 
