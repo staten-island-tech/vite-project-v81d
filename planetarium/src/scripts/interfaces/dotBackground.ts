@@ -70,7 +70,8 @@ export default class DotBackground {
       dot.slide(
         direction,
         distance,
-        Math.floor(Math.random() * maxDuration) + minDuration,
+        Math.floor(Math.random() * (maxDuration - minDuration + 1)) +
+          minDuration,
       );
   }
 }
