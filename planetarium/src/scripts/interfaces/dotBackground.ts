@@ -1,9 +1,9 @@
 export default class DotBackground {
-  appContainer: HTMLDivElement;
-  dots?: Dot[];
+  #appContainer: HTMLDivElement;
+  #dots?: Dot[];
 
   constructor(appContainer: HTMLDivElement) {
-    this.appContainer = appContainer;
+    this.#appContainer = appContainer;
   }
 
   generateBackground(dotCount: number) {
@@ -18,10 +18,10 @@ export default class DotBackground {
     canvas.style.pointerEvents = "none";
     canvas.style.zIndex = "0";
 
-    this.appContainer.prepend(canvas);
+    this.#appContainer.prepend(canvas);
 
-    const canvasElement = this.appContainer.querySelector(
-      "#background-canvas",
+    const canvasElement = this.#appContainer.querySelector(
+      "#background-canvas"
     ) as HTMLCanvasElement;
     const context: CanvasRenderingContext2D = canvasElement.getContext("2d")!;
 
@@ -29,13 +29,13 @@ export default class DotBackground {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
 
-      for (const dot of this.dots!) {
+      for (const dot of this.#dots!) {
         dot.x = Math.random() * canvas.width;
         dot.y = Math.random() * canvas.height;
       }
     });
 
-    this.dots = [];
+    this.#dots = [];
 
     for (let i = 0; i < dotCount; i++) {
       const radius = Math.random() * 2 + 1;
@@ -43,13 +43,13 @@ export default class DotBackground {
       const y = Math.random() * canvas.height;
       const vx = (Math.random() - 0.2) * 0.2;
       const vy = (Math.random() - 0.2) * 0.2;
-      this.dots.push(new Dot(canvas, x, y, vx, vy, radius));
+      this.#dots.push(new Dot(canvas, x, y, vx, vy, radius));
     }
 
     const animate = () => {
       context.clearRect(0, 0, canvas.width, canvas.height);
 
-      for (const dot of this.dots!) {
+      for (const dot of this.#dots!) {
         dot.update(canvas.width, canvas.height);
         dot.draw(context);
       }
@@ -64,14 +64,14 @@ export default class DotBackground {
     direction: string,
     distance: number,
     minDuration: number,
-    maxDuration: number,
+    maxDuration: number
   ) {
-    for (const dot of this.dots!)
+    for (const dot of this.#dots!)
       dot.slide(
         direction,
         distance,
         Math.floor(Math.random() * (maxDuration - minDuration + 1)) +
-          minDuration,
+          minDuration
       );
   }
 }
@@ -90,7 +90,7 @@ class Dot {
     y: number,
     vx: number,
     vy: number,
-    radius: number,
+    radius: number
   ) {
     this.canvas = canvas;
     this.x = x;
@@ -104,11 +104,11 @@ class Dot {
     context.beginPath();
     context.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     context.fillStyle = getComputedStyle(this.canvas).getPropertyValue(
-      "--color-background-dot",
+      "--color-background-dot"
     );
     context.shadowBlur = 5;
     context.shadowColor = getComputedStyle(this.canvas).getPropertyValue(
-      "--color-background-dot-shadow",
+      "--color-background-dot-shadow"
     );
     context.fill();
   }
@@ -129,7 +129,7 @@ class Dot {
      */
     if (!["u", "d", "l", "r"].includes(direction.toLowerCase()))
       throw new Error(
-        `"${direction}" is not a valid direction. Allowed directions include: u, d, l, r.`,
+        `"${direction}" is not a valid direction. Allowed directions include: u, d, l, r.`
       );
 
     const startX = this.x;

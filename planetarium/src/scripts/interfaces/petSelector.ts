@@ -3,27 +3,27 @@
  */
 
 export default class PetSelector {
-  appContainer: HTMLDivElement;
-  dotBackground: any;
-  petsArray: Record<string, any>[];
-  petSelectorInterface?: HTMLDivElement;
-  petSelector?: HTMLDivElement;
-  petSelectorIntroLabel?: HTMLDivElement;
+  #appContainer: HTMLDivElement;
+  #dotBackground: any;
+  #petsArray: Record<string, any>[];
+  #petSelectorInterface?: HTMLDivElement;
+  #petSelectorGrid?: HTMLDivElement;
+  #petSelectorIntroLabel?: HTMLDivElement;
   selectedPetID: number = 0;
   done: boolean = false;
 
   constructor(
     appContainer: HTMLDivElement,
     dotBackground: any,
-    petsArray: Record<string, any>[],
+    petsArray: Record<string, any>[]
   ) {
-    this.appContainer = appContainer;
-    this.dotBackground = dotBackground;
-    this.petsArray = petsArray;
+    this.#appContainer = appContainer;
+    this.#dotBackground = dotBackground;
+    this.#petsArray = petsArray;
   }
 
   setupInterface() {
-    this.appContainer.insertAdjacentHTML(
+    this.#appContainer.insertAdjacentHTML(
       "beforeend",
       `
       <div class="app__pet-selector-interface gap-10">
@@ -36,25 +36,25 @@ export default class PetSelector {
         <div class="pet-selector"></div>
         <p class="pet-selector-interface__intro-label"></p>
       </div>
-    `,
+    `
     );
-    this.dotBackground.generateBackground(50);
-    this.petSelectorInterface = this.appContainer.querySelector(
-      ".app__pet-selector-interface",
+    this.#dotBackground.generateBackground(50);
+    this.#petSelectorInterface = this.#appContainer.querySelector(
+      ".app__pet-selector-interface"
     ) as HTMLDivElement;
-    this.petSelector = this.petSelectorInterface.querySelector(
-      ".pet-selector",
+    this.#petSelectorGrid = this.#petSelectorInterface.querySelector(
+      ".pet-selector"
     ) as HTMLDivElement;
-    this.petSelectorIntroLabel = this.petSelectorInterface.querySelector(
-      ".pet-selector-interface__intro-label",
+    this.#petSelectorIntroLabel = this.#petSelectorInterface.querySelector(
+      ".pet-selector-interface__intro-label"
     ) as HTMLDivElement;
   }
 
   insertPets() {
-    for (let i = 0; i < this.petsArray.length; i++) {
-      const pet = this.petsArray[i];
+    for (let i = 0; i < this.#petsArray.length; i++) {
+      const pet = this.#petsArray[i];
 
-      this.appContainer
+      this.#appContainer
         .querySelector<HTMLDivElement>(".pet-selector")!
         .insertAdjacentHTML(
           "beforeend",
@@ -67,11 +67,11 @@ export default class PetSelector {
           </div>
           <button class="card__button" data-id="${i}">Adopt!</button>
         </div>
-      `,
+      `
         );
 
-      const button: HTMLButtonElement = this.petSelector!.querySelector(
-        `.card__button[data-id="${i}"]`,
+      const button: HTMLButtonElement = this.#petSelectorGrid!.querySelector(
+        `.card__button[data-id="${i}"]`
       )!;
       button.addEventListener("click", this.#onAdoptButtonAction.bind(this));
     }
@@ -85,14 +85,14 @@ export default class PetSelector {
     button.textContent = "Adopted!";
 
     const petID = Number(button.dataset.id);
-    const petObject = this.petsArray[petID];
+    const petObject = this.#petsArray[petID];
 
     localStorage.setItem("adoptedPet", JSON.stringify(petObject));
 
     // Disable every button
-    for (let i = 0; i < this.petsArray.length; i++) {
-      const btn: HTMLButtonElement = this.petSelector!.querySelector(
-        `.card__button[data-id="${i}"]`,
+    for (let i = 0; i < this.#petsArray.length; i++) {
+      const btn: HTMLButtonElement = this.#petSelectorGrid!.querySelector(
+        `.card__button[data-id="${i}"]`
       )!;
       btn.disabled = true;
     }
@@ -102,7 +102,7 @@ export default class PetSelector {
   }
 
   #playCardSelectAnimation(card: HTMLDivElement, petID: number) {
-    this.petSelectorInterface!.style.overflow = "hidden";
+    this.#petSelectorInterface!.style.overflow = "hidden";
 
     const rect: DOMRect = card.getBoundingClientRect();
     const placeholder: HTMLDivElement = document.createElement("div");
@@ -130,11 +130,11 @@ export default class PetSelector {
     card.style.transform = `translate(-50%, -50%)`;
 
     const petSelectorInterfaceLabels: HTMLDivElement =
-      this.petSelectorInterface!.querySelector(
-        ".pet-selector-interface__labels",
+      this.#petSelectorInterface!.querySelector(
+        ".pet-selector-interface__labels"
       )!;
     const petSelectorCards: NodeListOf<Element> =
-      this.petSelector!.querySelectorAll(".pet-selector__card")!;
+      this.#petSelectorGrid!.querySelectorAll(".pet-selector__card")!;
 
     // Fade away all the other elements
     petSelectorInterfaceLabels.style.opacity = "0";
@@ -151,7 +151,7 @@ export default class PetSelector {
       card.style.top = `40%`;
       card.style.opacity = "0";
 
-      this.dotBackground!.slideAllRandom("u", 50, 500, 1000); // slide all dots up by 50 px in 1 s
+      this.#dotBackground!.slideAllRandom("u", 50, 500, 1000); // slide all dots up by 50 px in 1 s
 
       setTimeout(() => (card.style.display = "none"), 500);
       setTimeout(() => this.#runIntro(petID), 500);
@@ -162,8 +162,8 @@ export default class PetSelector {
     const delay = (ms: number) =>
       new Promise((resolve) => setTimeout(resolve, ms));
 
-    const intro = this.petsArray[petID].intro;
-    let label = this.petSelectorIntroLabel!;
+    const intro = this.#petsArray[petID].intro;
+    let label = this.#petSelectorIntroLabel!;
 
     for (let i = 0; i < intro.length; i++) {
       label.style.transition = "top 0.5s ease, opacity 0.5s ease"; // reset transition
@@ -178,8 +178,13 @@ export default class PetSelector {
       label.style.opacity = "0"; // disappear
 
       if (i === intro.length - 1)
-        this.dotBackground!.slideAllRandom("u", window.outerHeight, 2000, 3000);
-      else this.dotBackground!.slideAllRandom("u", 50, 500, 1000);
+        this.#dotBackground!.slideAllRandom(
+          "u",
+          window.outerHeight,
+          2000,
+          3000
+        );
+      else this.#dotBackground!.slideAllRandom("u", 50, 500, 1000);
 
       await delay(500);
 
