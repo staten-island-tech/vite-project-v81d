@@ -7,7 +7,6 @@ button.theme-switcher {
   outline: 1px solid var(--color-button-primary);
   color: var(--color-button-primary);
   opacity: 0.25;
-  transition: opacity 0.1s ease;
 }
 
 button.theme-switcher:hover {
