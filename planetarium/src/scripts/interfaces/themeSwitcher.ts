@@ -1,10 +1,14 @@
 export default class ThemeSwitcher {
-  #appContainer: HTMLDivElement;
   #theme: string;
 
-  constructor(appContainer: HTMLDivElement, theme: string) {
-    this.#appContainer = appContainer;
+  constructor(theme: string = "dark-theme") {
     this.#theme = theme;
+  }
+
+  attachClickAction(button: HTMLButtonElement) {
+    button.addEventListener("click", () => {
+      this.forceTheme();
+    });
   }
 
   setTheme(theme: string) {
@@ -12,6 +16,8 @@ export default class ThemeSwitcher {
   }
 
   forceTheme() {
-    document.body.classList.add(this.#theme);
+    const newTheme = this.#theme === "dark-theme" ? "light-theme" : "dark-theme";
+    document.body.className = newTheme;
+    this.#theme = newTheme;
   }
 }

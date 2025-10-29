@@ -15,8 +15,8 @@
   /* Buttons */
   --color-button-primary: white;
   --color-button-disabled: #999;
-  --color-button-hover: #d2d2d2;
-  --color-button-active: #b1b1b1;
+  --color-button-hover: #dedede;
+  --color-button-active: #c9c9c9;
   --color-button-text: var(--color-background-alt);
 }
 
