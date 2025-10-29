@@ -1,5 +1,6 @@
 import petsArray from "./assets/json/planets.json";
 import { appContainer } from "./scripts/globals.ts";
+import ThemeSwitcher from "./scripts/interfaces/themeSwitcher.ts";
 import DotBackground from "./scripts/interfaces/dotBackground.ts";
 import PetSelector from "./scripts/interfaces/petSelector.ts";
 
@@ -9,6 +10,15 @@ let dotBackground = new DotBackground(appContainer);
 let petSelector = new PetSelector(appContainer, dotBackground, petsArray);
 petSelector.setupInterface();
 petSelector.insertPets();
+
+// Theme changer button
+let themeButton = document.createElement("button");
+themeButton.className = "theme-switcher";
+themeButton.textContent = "Switch Theme";
+appContainer.insertAdjacentElement("afterbegin", themeButton);
+
+let themeSwitcher = new ThemeSwitcher();
+themeSwitcher.attachClickAction(themeButton);
 
 // Return the object for a pet given its ID, with the `intro` key omitted
 function fetchPet(petID: number) {
