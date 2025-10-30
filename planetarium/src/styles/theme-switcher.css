@@ -1,23 +1,47 @@
 @import "tailwindcss";
 
-button.theme-switcher {
+button.theme-switcher-button {
   @apply fixed bottom-5 md:bottom-auto md:top-5 right-5 p-3 min-w-40 rounded-2xl;
   cursor: pointer;
   z-index: 9999;
-  outline: 1px solid var(--color-button-primary);
-  background-color: var(--color-button-invert-transparent);
-  color: var(--color-button-primary);
+  overflow: hidden;
+  border: 1px solid var(--color-button-transparent-primary);
+  background-color: var(--color-button-transparent-background);
+  color: var(--color-button-transparent-primary);
   backdrop-filter: blur(3px);
-  transition: box-shadow 2s ease, opacity 0.5s ease;
+  transition:
+    transform 0.1s ease,
+    opacity 0.5s ease;
 }
 
-button.theme-switcher:hover {
-  outline-width: 2px;
-  box-shadow: 0 0 200px var(--color-button-primary);
+/* Shimmer */
+button.theme-switcher-button:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    var(--color-button-transparent-shimmer),
+    transparent
+  );
+  transition: left 1s ease;
 }
 
-button.theme-switcher:active {
-  @apply font-bold;
-  outline-width: 3px;
-  box-shadow: 0 0 200px var(--color-button-primary);
+button.theme-switcher-button:hover:before {
+  left: 100%;
+}
+
+button.theme-switcher-button:hover {
+  border-color: var(--color-button-transparent-hover);
+  color: var(--color-button-transparent-hover);
+}
+
+button.theme-switcher-button:active {
+  transform: scale(0.95);
+  border-color: var(--color-button-transparent-active);
+  color: var(--color-button-transparent-active);
 }

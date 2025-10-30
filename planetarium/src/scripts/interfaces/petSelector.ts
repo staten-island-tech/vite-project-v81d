@@ -25,7 +25,7 @@ export default class PetSelector {
     this.#appContainer.insertAdjacentHTML(
       "beforeend",
       `
-      <div class="app__pet-selector-interface gap-10">
+      <div class="app__pet-selector-interface">
         <div class="pet-selector-interface__labels">
           <h1 class="text-6xl font-bold">planetarium</h1>
           <p class="text-xl">
@@ -37,6 +37,7 @@ export default class PetSelector {
       </div>
     `,
     );
+
     this.#dotBackground.generateBackground(50);
     this.#petSelectorInterface = this.#appContainer.querySelector(
       ".app__pet-selector-interface",
@@ -85,8 +86,6 @@ export default class PetSelector {
 
     const petID = Number(button.dataset.id);
     const petObject = this.#petsArray[petID];
-
-    localStorage.setItem("adoptedPet", JSON.stringify(petObject));
 
     // Disable every button
     for (let i = 0; i < this.#petsArray.length; i++) {
@@ -137,17 +136,22 @@ export default class PetSelector {
 
     // Fade away all the other elements
     petSelectorInterfaceLabels.style.opacity = "0";
+    setTimeout(() => (petSelectorInterfaceLabels.style.display = "none"), 500);
     petSelectorCards.forEach((element) => {
       const el = element as HTMLDivElement;
       if (el.querySelector(`.card__button:not([data-id="${petID}"])`)) {
         el.style.opacity = "0";
+        setTimeout(() => (el.style.display = "none"), 500);
       }
     });
-    (
-      this.#appContainer.querySelector(".theme-switcher")! as HTMLButtonElement
-    ).style.opacity = "0.25";
 
-    // Slide out card after 2 seconds, then begin intro scene
+    const themeSwitcher = this.#appContainer.querySelector(
+      ".theme-switcher-button",
+    ) as HTMLButtonElement;
+    themeSwitcher.style.opacity = "0";
+    setTimeout(() => (themeSwitcher.style.display = "none"), 500);
+
+    // Begin intro
     setTimeout(() => {
       card.style.top = `40%`;
       card.style.opacity = "0";

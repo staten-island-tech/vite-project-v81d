@@ -6,19 +6,26 @@ export default class DotBackground {
     this.#appContainer = appContainer;
   }
 
-  generateBackground(dotCount: number) {
+  generateBackground(dotCount: number, fadeIn: boolean = false) {
     const canvas: HTMLCanvasElement = document.createElement("canvas");
 
     canvas.id = "background-canvas";
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    canvas.style.zIndex = "0";
     canvas.style.position = "fixed";
     canvas.style.top = "0";
     canvas.style.left = "0";
     canvas.style.pointerEvents = "none";
-    canvas.style.zIndex = "0";
+    canvas.style.transition = "opacity 3s ease";
 
     this.#appContainer.prepend(canvas);
+
+    if (fadeIn) {
+      canvas.style.opacity = "0";
+      canvas.offsetHeight; // reflow
+      setTimeout(() => (canvas.style.opacity = "1"), 50);
+    }
 
     const canvasElement = this.#appContainer.querySelector(
       "#background-canvas",
@@ -73,6 +80,10 @@ export default class DotBackground {
         Math.floor(Math.random() * (maxDuration - minDuration + 1)) +
           minDuration,
       );
+  }
+
+  clear() {
+    this.#dots = [];
   }
 }
 

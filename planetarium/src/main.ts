@@ -3,6 +3,7 @@ import { appContainer } from "./scripts/globals.ts";
 import ThemeSwitcher from "./scripts/interfaces/themeSwitcher.ts";
 import DotBackground from "./scripts/interfaces/dotBackground.ts";
 import PetSelector from "./scripts/interfaces/petSelector.ts";
+import GameView from "./scripts/interfaces/gameView.ts";
 
 let dotBackground = new DotBackground(appContainer);
 
@@ -15,7 +16,7 @@ let theme = localStorage.getItem("theme") ?? "dark-theme";
 
 // Theme changer button
 let themeButton = document.createElement("button");
-themeButton.className = "theme-switcher";
+themeButton.className = "theme-switcher-button";
 themeButton.textContent = theme === "dark-theme" ? "Light Theme" : "Dark Theme";
 appContainer.insertAdjacentElement("afterbegin", themeButton);
 
@@ -34,11 +35,24 @@ async function pollPetSelectorDone() {
   while (!petSelector.done) {
     await new Promise((resolve) => setTimeout(resolve, 100));
   }
-  console.log(
-    `The user selected a pet. The selected pet is: ${JSON.stringify(
-      fetchPet(petSelector.selectedPetID),
-    )}`,
-  );
 }
 
-pollPetSelectorDone();
+if (!localStorage.getItem("adoptedPet")) await pollPetSelectorDone();
+
+// The following operations should occur directly after a pet has been selected
+let gameView = new GameView(appContainer);
+
+localStorage.setItem(
+  "adoptedPet",
+  JSON.stringify(fetchPet(petSelector.selectedPetID)),
+);
+
+console.log(
+  `The user selected a pet. The selected pet is: ${localStorage.getItem("adoptedPet")}`,
+);
+
+appContainer.innerHTML = "";
+gameView.build();
+gameView.fadeIn();
+dotBackground.clear();
+dotBackground.generateBackground(50, true);

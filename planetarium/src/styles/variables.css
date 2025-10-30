@@ -12,13 +12,20 @@
   --color-background-dot: rgba(255, 255, 255, 0.5);
   --color-background-dot-shadow: white;
 
-  /* Buttons */
+  /* Button (main) */
   --color-button-primary: white;
-  --color-button-invert-transparent: rgba(0, 0, 0, 0.5);
   --color-button-disabled: #999;
   --color-button-hover: #dedede;
   --color-button-active: #c9c9c9;
   --color-button-text: var(--color-background-alt);
+
+  /* Button (transparent) */
+  --color-button-transparent-primary: rgba(255, 255, 255, 0.5);
+  --color-button-transparent-background: rgba(0, 0, 0, 0.5);
+  --color-button-transparent-shimmer: rgba(255, 255, 255, 0.1);
+  --color-button-transparent-disabled: rgba(153, 153, 153, 0.5);
+  --color-button-transparent-hover: rgba(255, 255, 255, 0.6);
+  --color-button-transparent-active: rgba(255, 255, 255, 0.7);
 }
 
 .light-theme {
@@ -34,11 +41,18 @@
   --color-background-dot: rgba(0, 0, 0, 0.5);
   --color-background-dot-shadow: black;
 
-  /* Buttons */
+  /* Button (main) */
   --color-button-primary: black;
-  --color-button-invert-transparent: rgba(255, 255, 255, 0.5);
   --color-button-disabled: #4d4d4d;
   --color-button-hover: #2e2e2e;
   --color-button-active: #3c3c3c;
   --color-button-text: var(--color-background-alt);
+  
+  /* Button (transparent) */
+  --color-button-transparent-primary: rgba(0, 0, 0, 0.5);
+  --color-button-transparent-background: rgba(255, 255, 255, 0.5);
+  --color-button-transparent-shimmer: rgba(0, 0, 0, 0.1);
+  --color-button-transparent-disabled: rgba(77, 77, 77, 0.5);
+  --color-button-transparent-hover: rgba(0, 0, 0, 0.6);
+  --color-button-transparent-active: rgba(0, 0, 0, 0.7);
 }
