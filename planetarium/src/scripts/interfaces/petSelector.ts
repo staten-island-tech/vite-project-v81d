@@ -1,7 +1,6 @@
 /* Wrap the background class instance in the PetSelector class.
  * Since some event listeners must take control over the background effects, we have to handle the background here.
  */
-
 export default class PetSelector {
   #appContainer: HTMLDivElement;
   #dotBackground: any;
