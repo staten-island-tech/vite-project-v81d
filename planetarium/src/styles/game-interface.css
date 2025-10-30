@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+.app__game-interface {
+  @apply z-1 flex flex-col justify-center items-center gap-15 w-full h-full;
+  opacity: 0;
+  transition: opacity 3s ease;
+}
