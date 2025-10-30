@@ -11,13 +11,15 @@ let petSelector = new PetSelector(appContainer, dotBackground, petsArray);
 petSelector.setupInterface();
 petSelector.insertPets();
 
+let theme = localStorage.getItem("theme") ?? "dark-theme";
+
 // Theme changer button
 let themeButton = document.createElement("button");
 themeButton.className = "theme-switcher";
-themeButton.textContent = "Switch Theme";
+themeButton.textContent = theme === "dark-theme" ? "Light Theme" : "Dark Theme";
 appContainer.insertAdjacentElement("afterbegin", themeButton);
 
-let themeSwitcher = new ThemeSwitcher();
+let themeSwitcher = new ThemeSwitcher(theme);
 themeSwitcher.attachClickAction(themeButton);
 
 // Return the object for a pet given its ID, with the `intro` key omitted
@@ -34,8 +36,8 @@ async function pollPetSelectorDone() {
   }
   console.log(
     `The user selected a pet. The selected pet is: ${JSON.stringify(
-      fetchPet(petSelector.selectedPetID)
-    )}`
+      fetchPet(petSelector.selectedPetID),
+    )}`,
   );
 }
 

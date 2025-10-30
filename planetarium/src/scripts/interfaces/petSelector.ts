@@ -15,7 +15,7 @@ export default class PetSelector {
   constructor(
     appContainer: HTMLDivElement,
     dotBackground: any,
-    petsArray: Record<string, any>[]
+    petsArray: Record<string, any>[],
   ) {
     this.#appContainer = appContainer;
     this.#dotBackground = dotBackground;
@@ -36,17 +36,17 @@ export default class PetSelector {
         <div class="pet-selector"></div>
         <p class="pet-selector-interface__intro-label"></p>
       </div>
-    `
+    `,
     );
     this.#dotBackground.generateBackground(50);
     this.#petSelectorInterface = this.#appContainer.querySelector(
-      ".app__pet-selector-interface"
+      ".app__pet-selector-interface",
     ) as HTMLDivElement;
     this.#petSelectorGrid = this.#petSelectorInterface.querySelector(
-      ".pet-selector"
+      ".pet-selector",
     ) as HTMLDivElement;
     this.#petSelectorIntroLabel = this.#petSelectorInterface.querySelector(
-      ".pet-selector-interface__intro-label"
+      ".pet-selector-interface__intro-label",
     ) as HTMLDivElement;
   }
 
@@ -67,11 +67,11 @@ export default class PetSelector {
           </div>
           <button class="card__button" data-id="${i}">Adopt!</button>
         </div>
-      `
+      `,
         );
 
       const button: HTMLButtonElement = this.#petSelectorGrid!.querySelector(
-        `.card__button[data-id="${i}"]`
+        `.card__button[data-id="${i}"]`,
       )!;
       button.addEventListener("click", this.#onAdoptButtonAction.bind(this));
     }
@@ -92,7 +92,7 @@ export default class PetSelector {
     // Disable every button
     for (let i = 0; i < this.#petsArray.length; i++) {
       const btn: HTMLButtonElement = this.#petSelectorGrid!.querySelector(
-        `.card__button[data-id="${i}"]`
+        `.card__button[data-id="${i}"]`,
       )!;
       btn.disabled = true;
     }
@@ -131,20 +131,22 @@ export default class PetSelector {
 
     const petSelectorInterfaceLabels: HTMLDivElement =
       this.#petSelectorInterface!.querySelector(
-        ".pet-selector-interface__labels"
+        ".pet-selector-interface__labels",
       )!;
     const petSelectorCards: NodeListOf<Element> =
       this.#petSelectorGrid!.querySelectorAll(".pet-selector__card")!;
 
     // Fade away all the other elements
     petSelectorInterfaceLabels.style.opacity = "0";
-
     petSelectorCards.forEach((element) => {
       const el = element as HTMLDivElement;
       if (el.querySelector(`.card__button:not([data-id="${petID}"])`)) {
         el.style.opacity = "0";
       }
     });
+    (
+      this.#appContainer.querySelector(".theme-switcher")! as HTMLButtonElement
+    ).style.opacity = "0.25";
 
     // Slide out card after 2 seconds, then begin intro scene
     setTimeout(() => {
@@ -182,7 +184,7 @@ export default class PetSelector {
           "u",
           window.outerHeight,
           2000,
-          3000
+          3000,
         );
       else this.#dotBackground!.slideAllRandom("u", 50, 500, 1000);
 
