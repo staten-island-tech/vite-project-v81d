@@ -1,18 +1,21 @@
 @import "tailwindcss";
 
 button.theme-switcher {
-  @apply fixed top-5 right-5 p-3 rounded-2xl;
+  @apply fixed top-5 right-5 p-3 min-w-40 rounded-2xl;
   cursor: pointer;
   z-index: 9999;
   outline: 1px solid var(--color-button-primary);
+  background-color: var(--color-button-invert-transparent);
   color: var(--color-button-primary);
-  opacity: 0.25;
+  backdrop-filter: blur(3px);
+  transition: opacity 0.5s ease;
 }
 
 button.theme-switcher:hover {
-  opacity: 0.5;
+  outline-width: 2px;
 }
 
 button.theme-switcher:active {
-  opacity: 1;
+  @apply font-bold;
+  outline-width: 3px;
 }
