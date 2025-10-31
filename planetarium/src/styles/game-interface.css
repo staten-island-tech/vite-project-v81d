@@ -1,7 +1,72 @@
 @import "tailwindcss";
 
 .app__game-interface {
-  @apply z-1 flex flex-col justify-center items-center gap-15 w-full h-full;
+  @apply z-1 flex flex-col items-center gap-15 w-full h-full;
   opacity: 0;
   transition: opacity 3s ease;
+}
+
+.app__game-interface h1,
+.app__game-interface h2,
+.app__game-interface h3,
+.app__game-interface h4,
+.app__game-interface h5,
+.app__game-interface h6,
+.app__game-interface p {
+  color: var(--color-foreground-alt);
+  overflow-wrap: normal;
+  word-break: normal;
+  white-space: normal;
+}
+
+.game-interface__top-panel {
+  @apply flex items-center gap-10 w-full h-20 p-5;
+  overflow-x: scroll;
+  border-bottom: 1px solid var(--color-panel-border);
+  background-color: var(--color-panel-background);
+  backdrop-filter: blur(3px);
+}
+
+.top-panel__labels {
+  @apply flex flex-wrap items-center gap-x-5;
+}
+
+.top-panel__buttons {
+  @apply flex-2;
+}
+
+.top-panel__buttons ul {
+  @apply flex justify-end;
+  list-style-type: none;
+  color: var(--color-foreground-alt);
+}
+
+.top-panel__button {
+  cursor: pointer;
+  position: relative;
+}
+
+.top-panel__button:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0.1em;
+  background-color: var(--color-foreground-alt);
+  opacity: 0;
+  transform: scale(0);
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.top-panel__button:hover:after {
+  opacity: 1;
+  transform: scale(1);
+  transform-origin: center;
+}
+
+.top-panel__button:active:after {
+  transform: scale(0.9);
 }

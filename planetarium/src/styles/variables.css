@@ -7,6 +7,7 @@
 
   /* Foreground */
   --color-foreground: white;
+  --color-foreground-alt: #bfbfbf;
 
   /* Background dots */
   --color-background-dot: rgba(255, 255, 255, 0.5);
@@ -26,6 +27,10 @@
   --color-button-transparent-disabled: rgba(153, 153, 153, 0.5);
   --color-button-transparent-hover: rgba(255, 255, 255, 0.6);
   --color-button-transparent-active: rgba(255, 255, 255, 0.7);
+
+  /* Panel */
+  --color-panel-border: rgba(255, 255, 255, 0.5);
+  --color-panel-background: rgba(255, 255, 255, 0.1);
 }
 
 .light-theme {
@@ -36,6 +41,7 @@
 
   /* Foreground */
   --color-foreground: black;
+  --color-foreground-alt: #535353;
 
   /* Background dots */
   --color-background-dot: rgba(0, 0, 0, 0.5);
@@ -47,7 +53,7 @@
   --color-button-hover: #2e2e2e;
   --color-button-active: #3c3c3c;
   --color-button-text: var(--color-background-alt);
-  
+
   /* Button (transparent) */
   --color-button-transparent-primary: rgba(0, 0, 0, 0.5);
   --color-button-transparent-background: rgba(255, 255, 255, 0.5);
@@ -55,4 +61,8 @@
   --color-button-transparent-disabled: rgba(77, 77, 77, 0.5);
   --color-button-transparent-hover: rgba(0, 0, 0, 0.6);
   --color-button-transparent-active: rgba(0, 0, 0, 0.7);
+
+  /* Panel */
+  --color-panel-border: rgba(0, 0, 0, 0.5);
+  --color-panel-background: rgba(0, 0, 0, 0.1);
 }

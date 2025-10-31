@@ -15,13 +15,14 @@ petSelector.insertPets();
 let theme = localStorage.getItem("theme") ?? "dark-theme";
 
 // Theme changer button
-let themeButton = document.createElement("button");
-themeButton.className = "theme-switcher-button";
-themeButton.textContent = theme === "dark-theme" ? "Light Theme" : "Dark Theme";
-appContainer.insertAdjacentElement("afterbegin", themeButton);
+let themeSwitcherButton = document.createElement("button");
+themeSwitcherButton.className = "theme-switcher-button";
+themeSwitcherButton.textContent =
+  theme === "dark-theme" ? "Light Theme" : "Dark Theme";
+appContainer.insertAdjacentElement("afterbegin", themeSwitcherButton);
 
 let themeSwitcher = new ThemeSwitcher(theme);
-themeSwitcher.attachClickAction(themeButton);
+themeSwitcher.attachClickAction(themeSwitcherButton);
 
 // Return the object for a pet given its ID, with the `intro` key omitted
 function fetchPet(petID: number) {
@@ -40,7 +41,7 @@ async function pollPetSelectorDone() {
 if (!localStorage.getItem("adoptedPet")) await pollPetSelectorDone();
 
 // The following operations should occur directly after a pet has been selected
-let gameView = new GameView(appContainer);
+let gameView = new GameView(appContainer, themeSwitcher);
 
 localStorage.setItem(
   "adoptedPet",
