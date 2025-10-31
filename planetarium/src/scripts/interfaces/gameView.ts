@@ -4,7 +4,7 @@ export default class GameInterface {
   #themeSwitcher: any;
   #gameInterface?: HTMLDivElement;
   #gameInterfaceTopPanel?: HTMLDivElement;
-  #themeSwitcherButton?: HTMLButtonElement;
+  #themeSwitcherButton?: HTMLLIElement;
 
   constructor(appContainer: HTMLDivElement, themeSwitcher: any) {
     this.#appContainer = appContainer;
@@ -25,8 +25,8 @@ export default class GameInterface {
         </div>
         <div class="top-panel__buttons">
           <ul>
-            <li>
-              <button id="theme-switcher-panel-button" class="top-panel__button">${theme === "dark-theme" ? "Light Theme" : "Dark Theme"}</button>
+            <li id="theme-switcher-panel-action">
+              <button class="top-panel__button">${theme === "dark-theme" ? "Light Theme" : "Dark Theme"}</button>
             </li>
           </ul>
         </div>
@@ -43,8 +43,8 @@ export default class GameInterface {
       ".game-interface__top-panel",
     ) as HTMLDivElement;
     this.#themeSwitcherButton = this.#gameInterfaceTopPanel.querySelector(
-      "#theme-switcher-panel-button",
-    ) as HTMLButtonElement;
+      "#theme-switcher-panel-action",
+    ) as HTMLLIElement;
     this.#themeSwitcher.attachClickAction(this.#themeSwitcherButton);
   }
 
