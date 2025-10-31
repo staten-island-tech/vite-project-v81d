@@ -29,33 +29,24 @@
 }
 
 .top-panel__labels {
-  @apply flex flex-wrap items-center gap-x-5 h-full p-5;
+  @apply flex flex-wrap items-center gap-x-5 p-5 h-full;
 }
 
 .top-panel__buttons {
-  @apply flex justify-end items-center p-0 h-full;
-}
-
-.top-panel__buttons ul {
-  @apply h-full;
-  list-style-type: none;
+  @apply flex flex-row-reverse justify-end items-center gap-1 p-0 h-full;
   color: var(--color-foreground-alt);
 }
 
-.top-panel__buttons ul li {
-  @apply flex justify-center items-center p-5 min-w-40 h-full;
+.top-panel__buttons button {
+  @apply p-5 min-w-40 h-full;
   cursor: pointer;
   background-color: var(--color-panel-button);
 }
 
-.top-panel__buttons ul li:hover {
+.top-panel__buttons button:hover {
   background-color: var(--color-panel-button-hover);
 }
 
-.top-panel__buttons ul li:active {
+.top-panel__buttons button:active {
   background-color: var(--color-panel-button-active);
-}
-
-.top-panel__button {
-  position: relative;
 }
