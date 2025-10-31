@@ -12,27 +12,29 @@ export default class GameInterface {
   }
 
   build() {
+    this.#buildPanel();
+  }
+
+  #buildPanel() {
     let theme = localStorage.getItem("theme") ?? "dark-theme";
 
     this.#appContainer.insertAdjacentHTML(
       "afterbegin",
       `
-    <div class="app__game-interface">
-      <div class="game-interface__top-panel">
-        <div class="top-panel__labels">
-          <h1 class="text-2xl font-bold">planetarium</h1>
-          <h2>The Observatory</h2>
-        </div>
-        <div class="top-panel__buttons">
-          <ul>
-            <li id="theme-switcher-panel-action">
-              <button class="top-panel__button">${theme === "dark-theme" ? "Light Theme" : "Dark Theme"}</button>
-            </li>
-          </ul>
+      <div class="app__game-interface">
+        <div class="game-interface__top-panel">
+          <div class="top-panel__labels">
+            <h1 class="text-2xl font-bold">planetarium</h1>
+            <h2>The Observatory</h2>
+          </div>
+          <div class="top-panel__buttons">
+            <button id="theme-switcher-panel-action">
+              ${theme === "dark-theme" ? "Light Theme" : "Dark Theme"}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    `,
+      `,
     );
 
     this.#gameInterface = this.#appContainer.querySelector(
