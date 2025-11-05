@@ -12,43 +12,46 @@ export default class GameInterface {
   }
 
   build() {
+    this.#gameInterface = document.createElement("div");
+    this.#gameInterface.className = "app__game-interface";
+
+    this.#appContainer.insertAdjacentElement("afterbegin", this.#gameInterface);
+    this.#gameInterface.offsetHeight; // reflow
+
     this.#buildPanel();
+    this.#buildPetView();
   }
 
   #buildPanel() {
-    let theme = localStorage.getItem("theme") ?? "dark-theme";
+    let theme: string = localStorage.getItem("theme") ?? "dark-theme";
 
-    this.#appContainer.insertAdjacentHTML(
+    this.#gameInterface!.insertAdjacentHTML(
       "afterbegin",
       `
-      <div class="app__game-interface">
-        <div class="game-interface__top-panel">
-          <div class="top-panel__labels">
-            <h1 class="text-2xl font-bold">planetarium</h1>
-            <h2>The Observatory</h2>
-          </div>
-          <div class="top-panel__buttons">
-            <button id="theme-switcher-panel-action">
-              ${theme === "dark-theme" ? "Light Theme" : "Dark Theme"}
-            </button>
-          </div>
+      <div class="game-interface__top-panel">
+        <div class="top-panel__labels">
+          <h1 class="text-2xl font-bold">planetarium</h1>
+          <h2>The Observatory</h2>
+        </div>
+        <div class="top-panel__buttons">
+          <button id="theme-switcher-panel-action">
+            ${theme === "dark-theme" ? "Light Theme" : "Dark Theme"}
+          </button>
         </div>
       </div>
-      `,
+      `
     );
 
-    this.#gameInterface = this.#appContainer.querySelector(
-      ".app__game-interface",
-    ) as HTMLDivElement;
-    this.#gameInterface.offsetHeight; // reflow
-    this.#gameInterfaceTopPanel = this.#gameInterface.querySelector(
-      ".game-interface__top-panel",
+    this.#gameInterfaceTopPanel = this.#gameInterface!.querySelector(
+      ".game-interface__top-panel"
     ) as HTMLDivElement;
     this.#themeSwitcherButton = this.#gameInterfaceTopPanel.querySelector(
-      "#theme-switcher-panel-action",
+      "#theme-switcher-panel-action"
     ) as HTMLLIElement;
     this.#themeSwitcher.attachClickAction(this.#themeSwitcherButton);
   }
+
+  #buildPetView() {}
 
   fadeIn() {
     this.#gameInterface!.style.opacity = "1";
