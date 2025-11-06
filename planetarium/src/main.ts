@@ -41,11 +41,12 @@ async function pollPetSelectorDone() {
 if (!localStorage.getItem("adoptedPet")) await pollPetSelectorDone();
 
 // The following operations should occur directly after a pet has been selected
-let gameView = new GameView(appContainer, themeSwitcher);
+const pet: Record<string, any> = fetchPet(petSelector.selectedPetID);
+let gameView = new GameView(appContainer, themeSwitcher, pet);
 
 localStorage.setItem(
   "adoptedPet",
-  JSON.stringify(fetchPet(petSelector.selectedPetID)),
+  JSON.stringify(pet),
 );
 
 console.log(

@@ -2,31 +2,41 @@
 export default class GameInterface {
   #appContainer: HTMLDivElement;
   #themeSwitcher: any;
+  #pet: Record<string, any>;
   #gameInterface?: HTMLDivElement;
   #gameInterfaceTopPanel?: HTMLDivElement;
   #themeSwitcherButton?: HTMLLIElement;
+  #gameBox?: HTMLDivElement;
+  #rows?: HTMLDivElement[];
 
-  constructor(appContainer: HTMLDivElement, themeSwitcher: any) {
+  constructor(
+    appContainer: HTMLDivElement,
+    themeSwitcher: any,
+    pet: Record<string, any>
+  ) {
     this.#appContainer = appContainer;
     this.#themeSwitcher = themeSwitcher;
+    this.#pet = pet;
   }
 
   build() {
     this.#gameInterface = document.createElement("div");
     this.#gameInterface.className = "app__game-interface";
-
     this.#appContainer.insertAdjacentElement("afterbegin", this.#gameInterface);
-    this.#gameInterface.offsetHeight; // reflow
 
     this.#buildPanel();
-    this.#buildPetView();
+    this.#buildGameBox();
+    this.#buildRows(5);
+    this.#buildPetViewer();
+
+    this.#gameInterface.offsetHeight; // reflow
   }
 
   #buildPanel() {
     let theme: string = localStorage.getItem("theme") ?? "dark-theme";
 
     this.#gameInterface!.insertAdjacentHTML(
-      "afterbegin",
+      "beforeend",
       `
       <div class="game-interface__top-panel">
         <div class="top-panel__labels">
@@ -51,7 +61,35 @@ export default class GameInterface {
     this.#themeSwitcher.attachClickAction(this.#themeSwitcherButton);
   }
 
-  #buildPetView() {}
+  #buildGameBox() {
+    this.#gameBox = document.createElement("div");
+    this.#gameBox.className = "game-interface__game-box";
+    this.#gameInterface!.insertAdjacentElement("beforeend", this.#gameBox);
+  }
+
+  #buildRows(count: number) {
+    this.#rows = [];
+
+    for (let i = 0; i < count; i++) {
+      const row: HTMLDivElement = document.createElement("div");
+      row.className = "game-box__row";
+
+      this.#gameBox!.appendChild(row);
+      this.#rows.push(row);
+    }
+  }
+
+  #buildPetViewer() {
+    this.#rows![0].insertAdjacentHTML(
+      "beforeend",
+      `
+      <div class="pet-viewer">
+        <img class="pet-viewer__image" src="${this.#pet.image}">
+        <h2 class="text-2xl font-bold">${this.#pet.name}</h2>
+      </div>
+      `
+    );
+  }
 
   fadeIn() {
     this.#gameInterface!.style.opacity = "1";
