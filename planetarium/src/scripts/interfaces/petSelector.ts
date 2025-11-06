@@ -85,7 +85,6 @@ export default class PetSelector {
     button.textContent = "Adopted!";
 
     const petID = Number(button.dataset.id);
-    const petObject = this.#petsArray[petID];
 
     // Disable every button
     for (let i = 0; i < this.#petsArray.length; i++) {

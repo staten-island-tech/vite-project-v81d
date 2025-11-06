@@ -48,8 +48,8 @@ export default class DotBackground {
       const radius = Math.random() * 2 + 1;
       const x = Math.random() * canvas.width;
       const y = Math.random() * canvas.height;
-      const vx = (Math.random() - 0.2) * 0.2;
-      const vy = (Math.random() - 0.2) * 0.2;
+      const vx = (Math.random() - 0.1) * 0.1;
+      const vy = (Math.random() - 0.1) * 0.1;
       this.#dots.push(new Dot(canvas, x, y, vx, vy, radius));
     }
 
