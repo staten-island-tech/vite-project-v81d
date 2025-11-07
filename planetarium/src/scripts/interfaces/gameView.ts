@@ -85,10 +85,13 @@ export default class GameInterface {
       `
       <div class="pet-viewer">
         <img class="pet-viewer__image" src="${this.#pet.image}">
-        <h2 class="text-2xl font-bold">${this.#pet.name}</h2>
+        <div class="flex flex-col justify-center items-center text-center gap-5 max-w-64">
+          <h2 class="text-3xl font-bold">${this.#pet.name}</h2>
+          <h2 class="text-lg">${this.#pet.description}</h2>
+        </div>
       </div>
       `
-    );
+    );  // append to upper row
   }
 
   fadeIn() {
