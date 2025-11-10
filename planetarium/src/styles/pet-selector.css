@@ -80,7 +80,7 @@
 }
 
 .pet-selector-interface__intro-label {
-  @apply fixed text-xl text-center;
+  @apply fixed text-2xl text-center;
   width: 75%;
   top: 55%;
   left: 50%;
