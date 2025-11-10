@@ -52,15 +52,15 @@
 }
 
 .game-interface__game-box {
-  @apply z-2 flex flex-col items-center gap-10 p-5 w-full h-full;
+  @apply z-2 flex items-center gap-10 p-5 w-full h-full;
 }
 
-.game-box__row {
-  @apply flex gap-15 p-15 w-full;
+.game-box__column {
+  @apply flex flex-col gap-15 p-15 h-full;
 }
 
 .pet-viewer {
-  @apply flex flex-row items-center text-center gap-10 p-15 h-96 rounded-2xl;
+  @apply flex items-center text-center gap-10 p-15 h-[40%] rounded-2xl;
   background-color: var(--color-background-alt-transparent);
   border: 1px solid var(--color-foreground);
   backdrop-filter: blur(3px);
@@ -68,4 +68,20 @@
 
 .pet-viewer__image {
   @apply w-48 h-48;
+}
+
+.stats-viewer {
+  @apply flex flex-col gap-10 p-15 h-[60%] rounded-2xl;
+  background-color: var(--color-background-alt-transparent);
+  border: 1px solid var(--color-foreground);
+  backdrop-filter: blur(3px);
+}
+
+.stats-viewer__stat {
+  @apply flex gap-5 w-full;
+}
+
+.stat__progress-bar {
+  @apply w-full;
+  color: var(--color-foreground);
 }

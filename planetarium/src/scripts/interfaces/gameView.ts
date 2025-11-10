@@ -7,7 +7,7 @@ export default class GameInterface {
   #gameInterfaceTopPanel?: HTMLDivElement;
   #themeSwitcherButton?: HTMLLIElement;
   #gameBox?: HTMLDivElement;
-  #rows?: HTMLDivElement[];
+  #columns?: HTMLDivElement[];
 
   constructor(
     appContainer: HTMLDivElement,
@@ -26,8 +26,9 @@ export default class GameInterface {
 
     this.#buildPanel();
     this.#buildGameBox();
-    this.#buildRows(5);
+    this.#buildRows(2);
     this.#buildPetViewer();
+    this.#buildStatsViewer();
 
     this.#gameInterface.offsetHeight; // reflow
   }
@@ -68,19 +69,19 @@ export default class GameInterface {
   }
 
   #buildRows(count: number) {
-    this.#rows = [];
+    this.#columns = [];
 
     for (let i = 0; i < count; i++) {
-      const row: HTMLDivElement = document.createElement("div");
-      row.className = "game-box__row";
+      const column: HTMLDivElement = document.createElement("div");
+      column.className = "game-box__column";
 
-      this.#gameBox!.appendChild(row);
-      this.#rows.push(row);
+      this.#gameBox!.appendChild(column);
+      this.#columns.push(column);
     }
   }
 
   #buildPetViewer() {
-    this.#rows![0].insertAdjacentHTML(
+    this.#columns![0].insertAdjacentHTML(
       "beforeend",
       `
       <div class="pet-viewer">
@@ -91,7 +92,22 @@ export default class GameInterface {
         </div>
       </div>
       `
-    );  // append to upper row
+    ); // append to upper row
+  }
+
+  #buildStatsViewer() {
+    this.#columns![0].insertAdjacentHTML(
+      "beforeend",
+      `
+      <div class="stats-viewer">
+        <h2 class="text-3xl font-bold">Planet Stats</h2>
+        <div class="stats-viewer__stat">
+          <progress id="health-bar" class="stat__progress-bar" value="50" max="100"></progress>
+          <label for="health-bar" class="stat__progress-bar-label">50%</label>
+        </div>
+      </div>
+      `
+    );
   }
 
   fadeIn() {
