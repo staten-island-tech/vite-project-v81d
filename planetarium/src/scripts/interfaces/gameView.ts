@@ -3,6 +3,7 @@ export default class GameInterface {
   #appContainer: HTMLDivElement;
   #themeSwitcher: any;
   #pet: Record<string, any>;
+  #stats: Record<string, Record<string, any>>;
   #gameInterface?: HTMLDivElement;
   #gameInterfaceTopPanel?: HTMLDivElement;
   #themeSwitcherButton?: HTMLLIElement;
@@ -17,6 +18,25 @@ export default class GameInterface {
     this.#appContainer = appContainer;
     this.#themeSwitcher = themeSwitcher;
     this.#pet = pet;
+
+    const savedStats: string | null = localStorage.getItem("petStats");
+
+    if (savedStats) {
+      this.#stats = JSON.parse(savedStats);
+    } else {
+      this.#stats = {
+        health: {
+          name: "Health",
+          suffix: "%",
+          value: 100
+        },
+        temperature: {
+          name: "Temperature",
+          suffix: " K",
+          value: this.#pet.temperature
+        }
+      }
+    }
   }
 
   build() {
@@ -101,9 +121,7 @@ export default class GameInterface {
       `
       <div class="stats-viewer">
         <h2 class="text-3xl font-bold">Planet Stats</h2>
-        <div class="stats-viewer__stat">
-          <progress id="health-bar" class="stat__progress-bar" value="50" max="100"></progress>
-          <label for="health-bar" class="stat__progress-bar-label">50%</label>
+        <div class="stats-viewer__stats-list">
         </div>
       </div>
       `
