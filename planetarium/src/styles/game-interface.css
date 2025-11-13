@@ -77,20 +77,20 @@
   backdrop-filter: blur(3px);
 }
 
-.stats-viewer__stat {
-  @apply flex gap-5 w-full;
-}
-
 .stats-viewer__stats-list {
   @apply flex flex-col gap-8;
 }
 
-.stat__progress-bar {
-  @apply p-1 w-full;
+.stats-list__stat-row {
+  @apply flex items-center gap-5 w-full;
+}
+
+.stat-row__progress-bar {
+  @apply flex-1 p-1 w-[50%] h-6;
   border: 2px solid var(--color-foreground);
 }
 
 .progress-bar__progress {
-  @apply w-full h-full;
+  @apply h-full;
   background-color: var(--color-foreground);
 }

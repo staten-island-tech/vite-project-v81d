@@ -9,6 +9,7 @@ export default class GameInterface {
   #themeSwitcherButton?: HTMLLIElement;
   #gameBox?: HTMLDivElement;
   #columns?: HTMLDivElement[];
+  #statsList?: HTMLDivElement;
 
   constructor(
     appContainer: HTMLDivElement,
@@ -25,17 +26,19 @@ export default class GameInterface {
       this.#stats = JSON.parse(savedStats);
     } else {
       this.#stats = {
-        health: {
-          name: "Health",
-          suffix: "%",
-          value: 100
+        stability: {
+          name: "Stability",
+          value: this.#pet.default_stats.stability,
         },
-        temperature: {
-          name: "Temperature",
-          suffix: " K",
-          value: this.#pet.temperature
-        }
-      }
+        atmosphere: {
+          name: "Atmosphere",
+          value: this.#pet.default_stats.atmosphere,
+        },
+        energy: {
+          name: "Energy",
+          value: this.#pet.default_stats.energy,
+        },
+      };
     }
   }
 
@@ -121,11 +124,29 @@ export default class GameInterface {
       `
       <div class="stats-viewer">
         <h2 class="text-3xl font-bold">Planet Stats</h2>
-        <div class="stats-viewer__stats-list">
-        </div>
+        <div class="stats-viewer__stats-list"></div>
       </div>
       `
     );
+
+    this.#statsList = this.#columns![0].querySelector(
+      ".stats-viewer .stats-viewer__stats-list"
+    )!;
+
+    for (const [stat, properties] of Object.entries(this.#stats)) {
+      this.#statsList.insertAdjacentHTML(
+        "beforeend",
+        `
+        <div class="stats-list__stat-row" data-stat="${stat}">
+          <p class="w-[25%]" data-name="title">${properties.name}</p>
+          <div class="stat-row__progress-bar">
+            <div class="progress-bar__progress" style="width: ${properties.value}%;"></div>
+          </div>
+          <p class="text-right w-10" data-name="value">${properties.value}%</p>
+        </div>
+        `
+      );
+    }
   }
 
   fadeIn() {
