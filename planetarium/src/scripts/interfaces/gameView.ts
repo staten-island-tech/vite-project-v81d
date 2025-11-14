@@ -10,6 +10,8 @@ export default class GameInterface {
   #gameBox?: HTMLDivElement;
   #columns?: HTMLDivElement[];
   #statsList?: HTMLDivElement;
+  #statsActions?: HTMLButtonElement[];
+  #logViewText?: HTMLDivElement;
 
   constructor(
     appContainer: HTMLDivElement,
@@ -30,16 +32,22 @@ export default class GameInterface {
           name: "Stability",
           value: this.#pet.default_stats.stability,
         },
-        atmosphere: {
-          name: "Atmosphere",
-          value: this.#pet.default_stats.atmosphere,
-        },
         energy: {
           name: "Energy",
           value: this.#pet.default_stats.energy,
         },
+        strength: {
+          name: "Strength",
+          value: this.#pet.default_stats.strength,
+        },
       };
+
+      this.#saveStats();
     }
+  }
+
+  #saveStats() {
+    localStorage.setItem("petStats", JSON.stringify(this.#stats));
   }
 
   build() {
@@ -49,7 +57,7 @@ export default class GameInterface {
 
     this.#buildPanel();
     this.#buildGameBox();
-    this.#buildRows(2);
+    this.#buildColumns(2);
     this.#buildPetViewer();
     this.#buildStatsViewer();
 
@@ -91,7 +99,7 @@ export default class GameInterface {
     this.#gameInterface!.insertAdjacentElement("beforeend", this.#gameBox);
   }
 
-  #buildRows(count: number) {
+  #buildColumns(count: number) {
     this.#columns = [];
 
     for (let i = 0; i < count; i++) {
@@ -125,6 +133,7 @@ export default class GameInterface {
       <div class="stats-viewer">
         <h2 class="text-3xl font-bold">Planet Stats</h2>
         <div class="stats-viewer__stats-list"></div>
+        <div class="stats-viewer__stat-buttons"></div>
       </div>
       `
     );
@@ -140,13 +149,41 @@ export default class GameInterface {
         <div class="stats-list__stat-row" data-stat="${stat}">
           <p class="w-[25%]" data-name="title">${properties.name}</p>
           <div class="stat-row__progress-bar">
-            <div class="progress-bar__progress" style="width: ${properties.value}%;"></div>
+            <div class="progress-bar__progress" style="width: ${Math.min(
+              100,
+              properties.value
+            )}%;"></div>
           </div>
-          <p class="text-right w-10" data-name="value">${properties.value}%</p>
+          <p class="text-right w-8" data-name="value">${
+            (properties.value < 0 ? "" : "+") + properties.value
+          }</p>
         </div>
         `
       );
     }
+
+    const statButtons: HTMLDivElement = this.#columns![0].querySelector(
+      ".stats-viewer .stats-viewer__stat-buttons"
+    )!;
+
+    for (const label of ["Stabilize", "Train", "Energize"]) {
+      const button: HTMLButtonElement = document.createElement("button");
+      button.className = "stat-buttons__button";
+      button.textContent = label;
+
+      statButtons.insertAdjacentElement("beforeend", button);
+    }
+  }
+
+  #buildLogView() {
+    this.#columns![1].insertAdjacentHTML(
+      "beforeend",
+      `
+      <div class="log-view">
+        <p></p>
+      </div>
+      `
+    );
   }
 
   fadeIn() {

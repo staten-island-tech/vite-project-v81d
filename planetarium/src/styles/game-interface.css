@@ -94,3 +94,7 @@
   @apply h-full;
   background-color: var(--color-foreground);
 }
+
+.stat-viewer__stat-buttons {
+  @apply flex justify-center gap-10;
+}
