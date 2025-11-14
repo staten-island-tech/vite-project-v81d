@@ -11,8 +11,8 @@
     ],
     "default_stats": {
       "stability": 100,
-      "atmosphere": 100,
-      "energy": 50
+      "energy": 50,
+      "strength": 100
     }
   },
   {
@@ -27,8 +27,8 @@
     ],
     "default_stats": {
       "stability": 85,
-      "atmosphere": 80,
-      "energy": 60
+      "energy": 60,
+      "strength": 80
     }
   },
   {
@@ -43,8 +43,8 @@
     ],
     "default_stats": {
       "stability": 45,
-      "atmosphere": 10,
-      "energy": 30
+      "energy": 30,
+      "strength": 10
     }
   },
   {
@@ -59,8 +59,8 @@
     ],
     "default_stats": {
       "stability": 5,
-      "atmosphere": 0,
-      "energy": 60
+      "energy": 60,
+      "strength": 0
     }
   }
 ]
