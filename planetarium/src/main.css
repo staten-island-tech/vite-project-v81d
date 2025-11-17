@@ -10,9 +10,6 @@ html,
 body,
 #app {
   @apply w-full h-full p-0 m-0;
-}
-
-#app {
   background-color: var(--color-background);
 }
 

@@ -172,6 +172,7 @@ export default class GameInterface {
       button.textContent = label;
 
       statButtons.insertAdjacentElement("beforeend", button);
+      this.#statsActions?.push(button);
     }
   }
 
@@ -180,7 +181,9 @@ export default class GameInterface {
       "beforeend",
       `
       <div class="log-view">
-        <p></p>
+        <p>
+          Test
+        </p>
       </div>
       `
     );

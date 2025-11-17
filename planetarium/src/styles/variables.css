@@ -23,7 +23,6 @@
   /* Button (transparent) */
   --color-button-transparent-primary: rgba(255, 255, 255, 0.5);
   --color-button-transparent-background: rgba(0, 0, 0, 0.5);
-  --color-button-transparent-shimmer: rgba(255, 255, 255, 0.1);
   --color-button-transparent-disabled: rgba(153, 153, 153, 0.5);
   --color-button-transparent-hover: rgba(255, 255, 255, 0.6);
   --color-button-transparent-active: rgba(255, 255, 255, 0.7);

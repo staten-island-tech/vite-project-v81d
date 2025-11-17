@@ -16,6 +16,8 @@ export default class DotBackground {
     canvas.style.position = "fixed";
     canvas.style.top = "0";
     canvas.style.left = "0";
+    canvas.style.width = "100vw";
+    canvas.style.height = "100vh";
     canvas.style.pointerEvents = "none";
     canvas.style.transition = "opacity 3s ease";
 
@@ -27,10 +29,7 @@ export default class DotBackground {
       setTimeout(() => (canvas.style.opacity = "1"), 50);
     }
 
-    const canvasElement = this.#appContainer.querySelector(
-      "#background-canvas",
-    ) as HTMLCanvasElement;
-    const context: CanvasRenderingContext2D = canvasElement.getContext("2d")!;
+    const context: CanvasRenderingContext2D = canvas.getContext("2d")!;
 
     window.addEventListener("resize", () => {
       canvas.width = window.innerWidth;

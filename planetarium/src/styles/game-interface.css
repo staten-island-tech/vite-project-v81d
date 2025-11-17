@@ -21,8 +21,7 @@
 
 /* Upper panel */
 .game-interface__top-panel {
-  @apply flex justify-between gap-10 w-full min-h-20;
-  overflow-x: scroll;
+  @apply overflow-x-scroll flex justify-between gap-10 w-full min-h-20;
   border-bottom: 1px solid var(--color-panel-border);
   background-color: var(--color-panel-background);
   backdrop-filter: blur(3px);
@@ -52,7 +51,7 @@
 }
 
 .game-interface__game-box {
-  @apply z-2 flex items-center gap-10 p-5 w-full h-full;
+  @apply overflow-x-scroll overflow-y-hidden z-2 flex items-center gap-10 p-0 w-full h-full;
 }
 
 .game-box__column {
@@ -71,7 +70,7 @@
 }
 
 .stats-viewer {
-  @apply flex flex-col gap-15 p-15 h-[60%] rounded-2xl;
+  @apply overflow-scroll flex flex-col gap-15 p-15 h-[60%] rounded-2xl;
   background-color: var(--color-background-alt-transparent);
   border: 1px solid var(--color-foreground);
   backdrop-filter: blur(3px);
@@ -95,6 +94,12 @@
   background-color: var(--color-foreground);
 }
 
-.stat-viewer__stat-buttons {
-  @apply flex justify-center gap-10;
+.stats-viewer__stat-buttons {
+  @apply flex justify-between gap-5;
+}
+
+.stat-buttons__button {
+  @apply cursor-pointer min-w-35 p-3 rounded-2xl;
+  background-color: var(--color-button-primary);
+  color: var(--color-button-text);
 }
