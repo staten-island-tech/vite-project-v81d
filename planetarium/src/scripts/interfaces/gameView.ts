@@ -31,14 +31,17 @@ export default class GameInterface {
         stability: {
           name: "Stability",
           value: this.#pet.default_stats.stability,
+          actionLabel: "Stabilize",
         },
         energy: {
           name: "Energy",
           value: this.#pet.default_stats.energy,
+          actionLabel: "Energize",
         },
         strength: {
           name: "Strength",
           value: this.#pet.default_stats.strength,
+          actionLabel: "Strengthen",
         },
       };
 
@@ -60,6 +63,7 @@ export default class GameInterface {
     this.#buildColumns(2);
     this.#buildPetViewer();
     this.#buildStatsViewer();
+    this.#buildLogView();
 
     this.#gameInterface.offsetHeight; // reflow
   }
@@ -143,33 +147,35 @@ export default class GameInterface {
     )!;
 
     for (const [stat, properties] of Object.entries(this.#stats)) {
-      this.#statsList.insertAdjacentHTML(
-        "beforeend",
-        `
-        <div class="stats-list__stat-row" data-stat="${stat}">
-          <p class="w-[25%]" data-name="title">${properties.name}</p>
-          <div class="stat-row__progress-bar">
-            <div class="progress-bar__progress" style="width: ${Math.min(
-              100,
-              properties.value
-            )}%;"></div>
-          </div>
-          <p class="text-right w-8" data-name="value">${
-            (properties.value < 0 ? "" : "+") + properties.value
-          }</p>
-        </div>
-        `
-      );
+      const statRow: HTMLDivElement = document.createElement("div");
+      statRow.className = "stats-list__stat-row";
+      statRow.dataset.stat = stat;
+      statRow.innerHTML = `
+      <p class="w-[25%]" data-name="title">${properties.name}</p>
+      <div class="stat-row__progress-bar">
+        <div class="progress-bar__progress" style="width: ${Math.min(
+          100,
+          properties.value
+        )}%;"></div>
+      </div>
+      <p class="text-right w-8" data-name="value">${
+        (properties.value < 0 ? "" : "+") + properties.value
+      }</p>
+      `;
+
+      this.#statsList.insertAdjacentElement("beforeend", statRow);
+      properties.rowElement = statRow;
     }
 
     const statButtons: HTMLDivElement = this.#columns![0].querySelector(
       ".stats-viewer .stats-viewer__stat-buttons"
     )!;
 
-    for (const label of ["Stabilize", "Train", "Energize"]) {
+    for (const [stat, properties] of Object.entries(this.#stats)) {
       const button: HTMLButtonElement = document.createElement("button");
       button.className = "stat-buttons__button";
-      button.textContent = label;
+      button.dataset.stat = stat;
+      button.textContent = properties.actionLabel;
 
       statButtons.insertAdjacentElement("beforeend", button);
       this.#statsActions?.push(button);
@@ -181,9 +187,11 @@ export default class GameInterface {
       "beforeend",
       `
       <div class="log-view">
-        <p>
-          Test
-        </p>
+        <div class="logList">
+          <p>
+            Test
+          </p>
+        </div>
       </div>
       `
     );

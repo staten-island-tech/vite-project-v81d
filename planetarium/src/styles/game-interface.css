@@ -58,11 +58,15 @@
   @apply flex flex-col gap-15 p-15 h-full;
 }
 
-.pet-viewer {
-  @apply flex items-center text-center gap-10 p-15 h-[40%] rounded-2xl;
+.game-box__column > div {
+  @apply overflow-scroll flex p-15 rounded-2xl;
   background-color: var(--color-background-alt-transparent);
   border: 1px solid var(--color-foreground);
   backdrop-filter: blur(3px);
+}
+
+.pet-viewer {
+  @apply items-center text-center gap-10 h-[40%];
 }
 
 .pet-viewer__image {
@@ -70,10 +74,7 @@
 }
 
 .stats-viewer {
-  @apply overflow-scroll flex flex-col gap-15 p-15 h-[60%] rounded-2xl;
-  background-color: var(--color-background-alt-transparent);
-  border: 1px solid var(--color-foreground);
-  backdrop-filter: blur(3px);
+  @apply flex-col gap-15 h-[60%];
 }
 
 .stats-viewer__stats-list {
@@ -81,12 +82,12 @@
 }
 
 .stats-list__stat-row {
-  @apply flex items-center gap-5 w-full;
+  @apply flex items-center gap-15 w-full;
 }
 
 .stat-row__progress-bar {
-  @apply flex-1 p-1 w-[50%] h-6;
-  border: 2px solid var(--color-foreground);
+  @apply flex-1 p-1 w-[50%] h-5;
+  border: 1px solid var(--color-foreground);
 }
 
 .progress-bar__progress {
@@ -100,6 +101,25 @@
 
 .stat-buttons__button {
   @apply cursor-pointer min-w-35 p-3 rounded-2xl;
-  background-color: var(--color-button-primary);
-  color: var(--color-button-text);
+  outline: 1px solid var(--color-button-primary);
+  color: var(--color-button-primary);
+  backdrop-filter: blur(3px);
+}
+
+.stat-buttons__button:hover {
+  outline: 1px solid var(--color-button-hover);
+  color: var(--color-button-hover);
+}
+
+.stat-buttons__button:active {
+  outline: 1px solid var(--color-button-active);
+  color: var(--color-button-active);
+}
+
+.log-view {
+  @apply flex-1;
+}
+
+.log-view .log-list {
+  @apply flex w-full;
 }
