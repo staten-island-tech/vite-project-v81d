@@ -51,7 +51,7 @@
 }
 
 .game-interface__game-box {
-  @apply overflow-x-scroll overflow-y-hidden z-2 flex items-center gap-10 p-0 w-full h-full;
+  @apply overflow-x-scroll overflow-y-hidden z-2 flex items-center p-0 w-full h-full;
 }
 
 .game-box__column {
@@ -59,14 +59,18 @@
 }
 
 .game-box__column > div {
-  @apply overflow-scroll flex p-15 rounded-2xl;
+  @apply flex p-15 rounded-2xl;
   background-color: var(--color-background-alt-transparent);
   border: 1px solid var(--color-foreground);
   backdrop-filter: blur(3px);
 }
 
+.game-box__column:last-child {
+  @apply min-w-[50%] w-full;
+}
+
 .pet-viewer {
-  @apply items-center text-center gap-10 h-[40%];
+  @apply overflow-scroll items-center text-center gap-10 h-[40%];
 }
 
 .pet-viewer__image {
@@ -74,7 +78,7 @@
 }
 
 .stats-viewer {
-  @apply flex-col gap-15 h-[60%];
+  @apply overflow-scroll flex-col gap-15 h-[60%];
 }
 
 .stats-viewer__stats-list {
@@ -117,9 +121,13 @@
 }
 
 .log-view {
-  @apply flex-1;
+  @apply flex flex-col gap-15 h-full;
 }
 
-.log-view .log-list {
-  @apply flex w-full;
+.log-view__log-content {
+  @apply overflow-scroll flex flex-col h-full;
+}
+
+.log-item__date {
+  @apply font-bold text-sky-500;
 }

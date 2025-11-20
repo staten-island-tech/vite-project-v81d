@@ -11,7 +11,7 @@ export default class GameInterface {
   #columns?: HTMLDivElement[];
   #statsList?: HTMLDivElement;
   #statsActions?: HTMLButtonElement[];
-  #logViewText?: HTMLDivElement;
+  #logContent?: HTMLDivElement;
 
   constructor(
     appContainer: HTMLDivElement,
@@ -187,14 +187,19 @@ export default class GameInterface {
       "beforeend",
       `
       <div class="log-view">
-        <div class="logList">
-          <p>
-            Test
-          </p>
+        <h2 class="text-3xl font-bold">Event Log</h2>
+        <div class="log-view__log-content">
+          <p><span class="log-item__date">[${new Date(
+            Date.now()
+          ).toLocaleString()}]</span> Welcome to the observatory. Nursture your planet and help it grow!</p>
         </div>
       </div>
       `
     );
+
+    this.#logContent = this.#columns![1].querySelector(
+      ".log-view .log-view__log-content"
+    )!;
   }
 
   fadeIn() {
@@ -204,4 +209,6 @@ export default class GameInterface {
   fadeOut() {
     this.#gameInterface!.style.opacity = "0";
   }
+
+  startGameLoop() {}
 }
