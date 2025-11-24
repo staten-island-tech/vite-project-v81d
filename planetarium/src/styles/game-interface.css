@@ -116,6 +116,7 @@
 }
 
 .stat-buttons__button:active {
+  transform: scale(0.95);
   outline: 1px solid var(--color-button-active);
   color: var(--color-button-active);
 }

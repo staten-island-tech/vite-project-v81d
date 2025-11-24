@@ -56,7 +56,9 @@ if (!localStorage.getItem("adoptedPet")) {
 let gameView = new GameView(appContainer, themeSwitcher, pet!);
 
 appContainer.innerHTML = "";
-gameView.build();
-gameView.fadeIn();
+
 dotBackground.clear();
 dotBackground.generateBackground(50, true);
+
+gameView.build();
+gameView.fadeIn();

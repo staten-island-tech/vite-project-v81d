@@ -1,3 +1,21 @@
+const stabilityInterval: Record<string, number | null> = {
+  intervalID: null,
+  tickRate: 10000,
+  changeBy: -1,
+};
+
+const energyInterval: Record<string, number | null> = {
+  intervalID: null,
+  tickRate: 8000,
+  changeBy: -2,
+};
+
+const strengthInterval: Record<string, number | null> = {
+  intervalID: null,
+  tickRate: 4000,
+  changeBy: -1,
+};
+
 // This class is used to construct the framework for the actual base interface of the game
 export default class GameInterface {
   #appContainer: HTMLDivElement;
@@ -16,7 +34,7 @@ export default class GameInterface {
   constructor(
     appContainer: HTMLDivElement,
     themeSwitcher: any,
-    pet: Record<string, any>
+    pet: Record<string, any>,
   ) {
     this.#appContainer = appContainer;
     this.#themeSwitcher = themeSwitcher;
@@ -32,16 +50,19 @@ export default class GameInterface {
           name: "Stability",
           value: this.#pet.default_stats.stability,
           actionLabel: "Stabilize",
+          rowElement: null,
         },
         energy: {
           name: "Energy",
           value: this.#pet.default_stats.energy,
           actionLabel: "Energize",
+          rowElement: null,
         },
         strength: {
           name: "Strength",
           value: this.#pet.default_stats.strength,
           actionLabel: "Strengthen",
+          rowElement: null,
         },
       };
 
@@ -85,14 +106,14 @@ export default class GameInterface {
           </button>
         </div>
       </div>
-      `
+      `,
     );
 
     this.#gameInterfaceTopPanel = this.#gameInterface!.querySelector(
-      ".game-interface__top-panel"
+      ".game-interface__top-panel",
     ) as HTMLDivElement;
     this.#themeSwitcherButton = this.#gameInterfaceTopPanel.querySelector(
-      "#theme-switcher-panel-action"
+      "#theme-switcher-panel-action",
     ) as HTMLLIElement;
     this.#themeSwitcher.attachClickAction(this.#themeSwitcherButton);
   }
@@ -126,7 +147,7 @@ export default class GameInterface {
           <h2 class="text-lg">${this.#pet.description}</h2>
         </div>
       </div>
-      `
+      `,
     ); // append to upper row
   }
 
@@ -139,11 +160,11 @@ export default class GameInterface {
         <div class="stats-viewer__stats-list"></div>
         <div class="stats-viewer__stat-buttons"></div>
       </div>
-      `
+      `,
     );
 
     this.#statsList = this.#columns![0].querySelector(
-      ".stats-viewer .stats-viewer__stats-list"
+      ".stats-viewer .stats-viewer__stats-list",
     )!;
 
     for (const [stat, properties] of Object.entries(this.#stats)) {
@@ -155,8 +176,8 @@ export default class GameInterface {
       <div class="stat-row__progress-bar">
         <div class="progress-bar__progress" style="width: ${Math.min(
           100,
-          properties.value
-        )}%;"></div>
+          properties.value,
+        )}%;" data-name="progress-bar"></div>
       </div>
       <p class="text-right w-8" data-name="value">${
         (properties.value < 0 ? "" : "+") + properties.value
@@ -168,7 +189,7 @@ export default class GameInterface {
     }
 
     const statButtons: HTMLDivElement = this.#columns![0].querySelector(
-      ".stats-viewer .stats-viewer__stat-buttons"
+      ".stats-viewer .stats-viewer__stat-buttons",
     )!;
 
     for (const [stat, properties] of Object.entries(this.#stats)) {
@@ -178,7 +199,8 @@ export default class GameInterface {
       button.textContent = properties.actionLabel;
 
       statButtons.insertAdjacentElement("beforeend", button);
-      this.#statsActions?.push(button);
+      this.#statsActions = this.#statsActions || [];
+      this.#statsActions.push(button);
     }
   }
 
@@ -190,15 +212,15 @@ export default class GameInterface {
         <h2 class="text-3xl font-bold">Event Log</h2>
         <div class="log-view__log-content">
           <p><span class="log-item__date">[${new Date(
-            Date.now()
-          ).toLocaleString()}]</span> Welcome to the observatory. Nursture your planet and help it grow!</p>
+            Date.now(),
+          ).toLocaleString()}]</span> Welcome to the observatory. Nurture your planet and help it grow!</p>
         </div>
       </div>
-      `
+      `,
     );
 
     this.#logContent = this.#columns![1].querySelector(
-      ".log-view .log-view__log-content"
+      ".log-view .log-view__log-content",
     )!;
   }
 
@@ -210,5 +232,20 @@ export default class GameInterface {
     this.#gameInterface!.style.opacity = "0";
   }
 
-  startGameLoop() {}
+  #createStatInterval(
+    stat: Record<string, any>,
+    interval: Record<string, number | null>,
+  ) {
+    interval.intervalID = setInterval(() => {
+      stat.value += interval.changeBy!;
+      this.#saveStats();
+
+      stat.rowElement!.querySelector("[data-name='value']")!.textContent =
+        (stat.value < 0 ? "" : "+") + stat.value;
+    }, interval.tickRate!);
+  }
+
+  startGameLoop() {
+    this.#createStatInterval(this.#stats.stability!, stabilityInterval);
+  }
 }

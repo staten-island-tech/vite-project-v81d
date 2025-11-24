@@ -10,7 +10,6 @@ button.theme-switcher-button {
   color: var(--color-button-transparent-primary);
   backdrop-filter: blur(3px);
   transition:
-    transform 0.1s ease,
     opacity 0.5s ease;
 }
 
