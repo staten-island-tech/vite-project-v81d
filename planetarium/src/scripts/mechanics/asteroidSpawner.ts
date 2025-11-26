@@ -4,7 +4,7 @@ const images = import.meta.glob(
 
 const asteroidImages: string[] = Object.keys(images);
 
-const asteroidProbabilityPerTick = 0.1;
+const asteroidProbabilityPerTick = 0.15;
 
 export default class AsteroidSpawner {
   #appContainer: HTMLDivElement;
@@ -35,10 +35,15 @@ export default class AsteroidSpawner {
     asteroidImage.style.left = startPosition.left;
     asteroidImage.style.width = "150px";
 
-    const animationName = `moveAsteroid_${Math.random().toString(36).substr(2, 9)}`;
+    const animationName = `moveAsteroid_${Math.random().toString(36).substring(2, 9)}`;
 
     const endPosition = this.#getOppositePosition(startPosition);
-    const moveDuration = Math.random() * 5 + 5;
+
+    const distance = this.#calculateDistance(startPosition, endPosition);
+    const speedMultiplier = Math.random() * 0.006 + 0.004;
+    let moveDuration = distance * speedMultiplier;
+
+    moveDuration = Math.max(moveDuration, 3);
 
     asteroidImage.style.animation = `rotateAsteroid 5s linear infinite, ${animationName} ${moveDuration}s linear forwards`;
 
@@ -102,6 +107,21 @@ export default class AsteroidSpawner {
     return { top: "0", left: "0" };
   }
 
+  #calculateDistance(
+    startPosition: { top: string; left: string },
+    endPosition: { top: string; left: string },
+  ): number {
+    const startLeft = parseFloat(startPosition.left);
+    const startTop = parseFloat(startPosition.top);
+    const endLeft = parseFloat(endPosition.left);
+    const endTop = parseFloat(endPosition.top);
+
+    const dx = endLeft - startLeft;
+    const dy = endTop - startTop;
+
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
   #addMoveAsteroidKeyframes(
     startPosition: { top: string; left: string },
     endPosition: { top: string; left: string },
@@ -119,13 +139,16 @@ export default class AsteroidSpawner {
     const deltaX = Math.cos(angle) * 1000;
     const deltaY = Math.sin(angle) * 1000;
 
+    const moveX = (endLeft - startLeft) + deltaX;
+    const moveY = (endTop - startTop) + deltaY;
+
     const keyframes = `
       @keyframes ${animationName} {
         0% {
-          transform: translate(${startLeft}px, ${startTop}px);
+          transform: translate(0, 0);
         }
         100% {
-          transform: translate(${endLeft + deltaX}px, ${endTop + deltaY}px);
+          transform: translate(${moveX}px, ${moveY}px);
         }
       }
     `;

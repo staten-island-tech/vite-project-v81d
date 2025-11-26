@@ -514,6 +514,11 @@ export default class GameInterface {
         const startPosition: { top: string; left: string } =
           this.#asteroidSpawner.getRandomStartPosition();
         this.#asteroidSpawner.spawnAsteroid(startPosition);
+
+        this.#createLogItem(
+          redColor,
+          "An asteroid has spawned! Hit it before it fades away!"
+        )
       }
 
       this.#score! += 1;
