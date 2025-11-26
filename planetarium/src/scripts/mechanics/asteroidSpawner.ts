@@ -4,7 +4,7 @@ const images = import.meta.glob(
 
 const asteroidImages: string[] = Object.keys(images);
 
-const asteroidProbabilityPerTick = 0.15;
+const asteroidProbabilityPerTick = 0.075;
 
 export default class AsteroidSpawner {
   #appContainer: HTMLDivElement;
@@ -36,23 +36,20 @@ export default class AsteroidSpawner {
     asteroidImage.style.width = "150px";
 
     const animationName = `moveAsteroid_${Math.random().toString(36).substring(2, 9)}`;
-
     const endPosition = this.#getOppositePosition(startPosition);
+    const moveDuration = this.#addMoveAsteroidKeyframes(
+      startPosition,
+      endPosition,
+      animationName,
+    );
 
-    const distance = this.#calculateDistance(startPosition, endPosition);
-    const speedMultiplier = Math.random() * 0.006 + 0.004;
-    let moveDuration = distance * speedMultiplier;
-
-    moveDuration = Math.max(moveDuration, 3);
-
-    asteroidImage.style.animation = `rotateAsteroid 5s linear infinite, ${animationName} ${moveDuration}s linear forwards`;
+    asteroidImage.style.animation = `${animationName} ${moveDuration}s linear forwards`;
 
     this.#appContainer.append(asteroidImage);
-    this.#addMoveAsteroidKeyframes(startPosition, endPosition, animationName);
 
-    asteroidImage.addEventListener("animationend", () =>
-      asteroidImage.remove(),
-    );
+    asteroidImage.addEventListener("animationend", (e: AnimationEvent) => {
+      if (e.animationName === animationName) asteroidImage.remove();
+    });
   }
 
   getRandomStartPosition(): { top: string; left: string } {
@@ -107,21 +104,6 @@ export default class AsteroidSpawner {
     return { top: "0", left: "0" };
   }
 
-  #calculateDistance(
-    startPosition: { top: string; left: string },
-    endPosition: { top: string; left: string },
-  ): number {
-    const startLeft = parseFloat(startPosition.left);
-    const startTop = parseFloat(startPosition.top);
-    const endLeft = parseFloat(endPosition.left);
-    const endTop = parseFloat(endPosition.top);
-
-    const dx = endLeft - startLeft;
-    const dy = endTop - startTop;
-
-    return Math.sqrt(dx * dx + dy * dy);
-  }
-
   #addMoveAsteroidKeyframes(
     startPosition: { top: string; left: string },
     endPosition: { top: string; left: string },
@@ -135,24 +117,34 @@ export default class AsteroidSpawner {
     const endLeft = parseFloat(endPosition.left);
     const endTop = parseFloat(endPosition.top);
 
-    const angle = Math.random() * 2 * Math.PI;
-    const deltaX = Math.cos(angle) * 1000;
-    const deltaY = Math.sin(angle) * 1000;
+    const windowWidth = window.innerWidth;
+    const windowHeight = window.innerHeight;
+    const maxDeviation = Math.min(windowWidth, windowHeight) * 0.3;
 
-    const moveX = (endLeft - startLeft) + deltaX;
-    const moveY = (endTop - startTop) + deltaY;
+    const angle = Math.random() * 2 * Math.PI;
+    const deltaX = Math.cos(angle) * maxDeviation;
+    const deltaY = Math.sin(angle) * maxDeviation;
+
+    const moveX = endLeft - startLeft + deltaX;
+    const moveY = endTop - startTop + deltaY;
+
+    const actualDistance = Math.sqrt(moveX * moveX + moveY * moveY);
+    const speedMultiplier = Math.random() * 0.006 + 0.0045;
+    const moveDuration = Math.max(actualDistance * speedMultiplier, 3);
 
     const keyframes = `
       @keyframes ${animationName} {
         0% {
-          transform: translate(0, 0);
+          transform: translate(0, 0) rotate(0deg);
         }
         100% {
-          transform: translate(${moveX}px, ${moveY}px);
+          transform: translate(${moveX}px, ${moveY}px) rotate(360deg);
         }
       }
     `;
 
     style.innerHTML = keyframes;
+
+    return moveDuration;
   }
 }
