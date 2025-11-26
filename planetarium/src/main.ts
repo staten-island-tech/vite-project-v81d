@@ -48,9 +48,7 @@ if (!localStorage.getItem("adoptedPet")) {
   console.log(`The user selected a pet. The selected pet is: ${pet}}`);
 
   localStorage.setItem("adoptedPet", JSON.stringify(pet));
-} else {
-  pet = JSON.parse(localStorage.getItem("adoptedPet")!);
-}
+} else pet = JSON.parse(localStorage.getItem("adoptedPet")!);
 
 // The following operations should occur directly after a pet has been selected
 let gameView = new GameView(appContainer, themeSwitcher, pet!);

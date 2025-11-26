@@ -12,7 +12,7 @@
     "default_stats": {
       "stability": 100,
       "energy": 50,
-      "strength": 10
+      "strength": 45
     }
   },
   {
@@ -27,8 +27,8 @@
     ],
     "default_stats": {
       "stability": 85,
-      "energy": 60,
-      "strength": 80
+      "energy": 40,
+      "strength": 75
     }
   },
   {
@@ -42,8 +42,8 @@
       "Welcome to planetarium! Care for this world under its twin suns and witness a unique but legendary solar dance."
     ],
     "default_stats": {
-      "stability": 45,
-      "energy": 30,
+      "stability": 60,
+      "energy": 90,
       "strength": 45
     }
   },
@@ -58,9 +58,9 @@
       "Welcome to planetarium! Can you tame this dual-sided planet and survive its fiery orbit?"
     ],
     "default_stats": {
-      "stability": 35,
-      "energy": 60,
-      "strength": 25
+      "stability": 60,
+      "energy": 100,
+      "strength": 45
     }
   }
 ]

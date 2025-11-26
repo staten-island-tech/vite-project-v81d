@@ -96,6 +96,9 @@ export default class PetSelector {
 
     // Animation sequence
     this.#playCardSelectAnimation(card, petID);
+
+    localStorage.removeItem("petStats"); // clear pet stats in case it remained
+    localStorage.removeItem("score");
   }
 
   #playCardSelectAnimation(card: HTMLDivElement, petID: number) {
