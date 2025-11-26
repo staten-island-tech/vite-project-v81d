@@ -4,6 +4,7 @@ import ThemeSwitcher from "./scripts/interfaces/themeSwitcher.ts";
 import DotBackground from "./scripts/interfaces/dotBackground.ts";
 import PetSelector from "./scripts/interfaces/petSelector.ts";
 import GameView from "./scripts/interfaces/gameView.ts";
+import AsteroidSpawner from "./scripts/mechanics/asteroidSpawner.ts";
 
 let dotBackground = new DotBackground(appContainer);
 
@@ -45,13 +46,12 @@ if (!localStorage.getItem("adoptedPet")) {
 
   pet = fetchPet(petSelector.selectedPetID);
 
-  console.log(`The user selected a pet. The selected pet is: ${pet}}`);
-
   localStorage.setItem("adoptedPet", JSON.stringify(pet));
 } else pet = JSON.parse(localStorage.getItem("adoptedPet")!);
 
 // The following operations should occur directly after a pet has been selected
-let gameView = new GameView(appContainer, themeSwitcher, pet!);
+let asteroidSpawner = new AsteroidSpawner(appContainer);
+let gameView = new GameView(appContainer, themeSwitcher, pet!, asteroidSpawner);
 
 appContainer.innerHTML = "";
 

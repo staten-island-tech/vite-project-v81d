@@ -98,6 +98,7 @@ export default class GameInterface {
   #appContainer: HTMLDivElement;
   #themeSwitcher: any;
   #pet: Record<string, any>;
+  #asteroidSpawner: any;
   #stats: Record<string, Record<string, any>>;
   #score?: number;
   #gameInterface?: HTMLDivElement;
@@ -114,10 +115,12 @@ export default class GameInterface {
     appContainer: HTMLDivElement,
     themeSwitcher: any,
     pet: Record<string, any>,
+    asteroidSpawner: any,
   ) {
     this.#appContainer = appContainer;
     this.#themeSwitcher = themeSwitcher;
     this.#pet = pet;
+    this.#asteroidSpawner = asteroidSpawner;
     this.#score = Number(localStorage.getItem("score") ?? 0);
 
     const savedStats: string | null = localStorage.getItem("petStats");
@@ -504,6 +507,14 @@ export default class GameInterface {
       this.#checkStat("stability", stability, stabilityInterval);
       this.#checkStat("energy", energy, energyInterval);
       this.#checkStat("strength", strength, strengthInterval);
+
+      const shouldSpawnAsteroid: boolean =
+        this.#asteroidSpawner.shouldSpawnAsteroid();
+      if (shouldSpawnAsteroid) {
+        const startPosition: { top: string; left: string } =
+          this.#asteroidSpawner.getRandomStartPosition();
+        this.#asteroidSpawner.spawnAsteroid(startPosition);
+      }
 
       this.#score! += 1;
       if (this.#score! > Number(localStorage.getItem("highScore") ?? 0)) {
