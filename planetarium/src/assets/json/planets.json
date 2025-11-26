@@ -44,7 +44,7 @@
     "default_stats": {
       "stability": 45,
       "energy": 30,
-      "strength": 10
+      "strength": 45
     }
   },
   {
@@ -58,9 +58,9 @@
       "Welcome to planetarium! Can you tame this dual-sided planet and survive its fiery orbit?"
     ],
     "default_stats": {
-      "stability": 5,
+      "stability": 35,
       "energy": 60,
-      "strength": 0
+      "strength": 25
     }
   }
 ]

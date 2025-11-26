@@ -1,19 +1,28 @@
-const stabilityInterval: Record<string, number | null> = {
+const stabilityInterval: Record<string, any> = {
   intervalID: null,
   tickRate: 5000,
   changeBy: -1,
+  zeroNotified: false,
+  criticalNotified: false,
+  warningNotified: false,
 };
 
-const energyInterval: Record<string, number | null> = {
+const energyInterval: Record<string, any> = {
   intervalID: null,
   tickRate: 7000,
   changeBy: -2,
+  zeroNotified: false,
+  criticalNotified: false,
+  warningNotified: false,
 };
 
-const strengthInterval: Record<string, number | null> = {
+const strengthInterval: Record<string, any> = {
   intervalID: null,
   tickRate: 4000,
   changeBy: -1,
+  zeroNotified: false,
+  criticalNotified: false,
+  warningNotified: false,
 };
 
 // This class is used to construct the framework for the actual base interface of the game
@@ -49,18 +58,27 @@ export default class GameInterface {
         stability: {
           name: "Stability",
           value: this.#pet.default_stats.stability,
+          increaseBy: 8,
+          cooldown: 5,
+          lastIncreased: 0,
           actionLabel: "Stabilize",
           rowElement: null,
         },
         energy: {
           name: "Energy",
           value: this.#pet.default_stats.energy,
+          increaseBy: 12,
+          cooldown: 10,
+          lastIncreased: 0,
           actionLabel: "Energize",
           rowElement: null,
         },
         strength: {
           name: "Strength",
           value: this.#pet.default_stats.strength,
+          increaseBy: 3,
+          cooldown: 2,
+          lastIncreased: 0,
           actionLabel: "Strengthen",
           rowElement: null,
         },
@@ -197,6 +215,39 @@ export default class GameInterface {
       button.className = "stat-buttons__button";
       button.dataset.stat = stat;
       button.textContent = properties.actionLabel;
+      button.addEventListener("click", () => {
+        if (100 - properties.value >= properties.increaseBy) {
+          if (properties.lastIncreased - Date.now() > properties.cooldown) {
+            properties.value += properties.increaseBy;
+
+            properties.rowElement!.querySelector(
+              "[data-name='value']"
+            )!.textContent =
+              (properties.value < 0 ? "" : "+") + properties.value;
+
+            properties.rowElement!.querySelector(
+              "[data-name='progress-bar']"
+            ).style.width = `${Math.max(0, Math.min(100, properties.value))}%`;
+
+            this.#createLogItem(
+              "color: oklch(76.8% 0.233 130.85);",
+              `You have increased your planet's ${stat}!`
+            );
+          } else {
+            this.#createLogItem(
+              "color: oklch(62.7% 0.265 303.9);",
+              `Please wait ${
+                properties.lastIncreased + properties.cooldown
+              } seconds before increasing your pet's ${stat}!`
+            );
+          }
+        } else {
+          this.#createLogItem(
+            "color: oklch(62.7% 0.265 303.9);",
+            `Your planet's ${stat} is already optimal!`
+          );
+        }
+      });
 
       statButtons.insertAdjacentElement("beforeend", button);
       this.#statsActions = this.#statsActions || [];
@@ -252,7 +303,7 @@ export default class GameInterface {
 
   #createStatInterval(
     stat: Record<string, any>,
-    interval: Record<string, number | null>
+    interval: Record<string, any>
   ) {
     interval.intervalID = setInterval(() => {
       stat.value += interval.changeBy!;
@@ -267,6 +318,90 @@ export default class GameInterface {
     }, interval.tickRate!);
   }
 
+  #checkStats(
+    stability: Record<string, any>,
+    energy: Record<string, any>,
+    strength: Record<string, any>
+  ) {
+    if (stability.value <= 0) {
+      if (!stability.zeroNotified) {
+        this.#createLogItem(
+          "color: oklch(44.4% 0.177 26.899);",
+          "Your planet has lost all its stability. It has now self-destructed!"
+        );
+        stability.zeroNotified = true;
+      }
+    } else if (stability.value < 25) {
+      if (!stability.criticalNotified) {
+        this.#createLogItem(
+          "color: oklch(63.7% 0.237 25.331);",
+          "Your planet is extremely unstable! Stabilize your pet as soon as possible!"
+        );
+        stability.criticalNotified = true;
+      }
+    } else if (stability.value < 65) {
+      if (!stability.warningNotified) {
+        this.#createLogItem(
+          "color: oklch(76.9% 0.188 70.08);",
+          "Your planet is becoming unstable! Make sure to stabilize your pet."
+        );
+        stability.warningNotified = true;
+      }
+    }
+
+    if (energy.value <= 0) {
+      if (!energy.zeroNotified) {
+        this.#createLogItem(
+          "color: oklch(44.4% 0.177 26.899);",
+          "Your planet's energy has been fully depleted. It can no longer remain in orbit!"
+        );
+        energy.zeroNotified = true;
+      }
+    } else if (energy.value < 25) {
+      if (!energy.criticalNotified) {
+        this.#createLogItem(
+          "color: oklch(63.7% 0.237 25.331);",
+          "Your planet is very low on energy! Don't forget to energize your pet!"
+        );
+        energy.criticalNotified = true;
+      }
+    } else if (energy.value < 65) {
+      if (!energy.warningNotified) {
+        this.#createLogItem(
+          "color: oklch(76.9% 0.188 70.08);",
+          "Your planet is becoming low on energy! Make sure to energize your pet."
+        );
+        energy.warningNotified = true;
+      }
+    }
+
+    if (strength.value <= 0) {
+      if (!strength.zeroNotified) {
+        this.#createLogItem(
+          "color: oklch(44.4% 0.177 26.899);",
+          "Your planet has become too weak to operate. It can no longer sustain itself!"
+        );
+        strength.zeroNotified = true;
+      }
+    } else if (strength.value < 25) {
+      if (!strength.criticalNotified) {
+        this.#createLogItem(
+          "color: oklch(63.7% 0.237 25.331);",
+          "Your planet is very low on strength! Make sure you strengthen your pet before it's too late!"
+        );
+        strength.criticalNotified = true;
+      }
+    } else if (strength.value < 65) {
+      if (!strength.warningNotified) {
+        this.#createLogItem(
+          "color: oklch(76.9% 0.188 70.08);",
+          "Your planet is starting to lose its strength! Don't forget to strengthen it!"
+        );
+        strength.warningNotified = true;
+      }
+    }
+  }
+
   startGameLoop() {
     let stability: Record<string, any> = this.#stats.stability!;
     let energy: Record<string, any> = this.#stats.energy!;
@@ -277,27 +412,8 @@ export default class GameInterface {
     this.#createStatInterval(strength, strengthInterval);
 
     setInterval(() => {
-      if (stability.value < 25)
-        this.#createLogItem(
-          "color: oklch(63.7% 0.237 25.331);",
-          "Your planet is extremely unstable! Stabilize your pet as soon as possible!"
-        );
-      else if (stability.value < 65)
-        this.#createLogItem(
-          "color: oklch(76.9% 0.188 70.08);",
-          "Your planet is becoming unstable! Make sure to stabilize your pet."
-        );
-      
-      if (energy.value < 25)
-        this.#createLogItem(
-          "color: oklch(63.7% 0.237 25.331);",
-          "Your planet is extremely tired! Energize your pet as soon as possible!"
-        );
-      else if (energy.value < 65)
-        this.#createLogItem(
-          "color: oklch(76.9% 0.188 70.08);",
-          "Your planet is becoming tired! Make sure to energize your pet."
-        );
+      this.#checkStats(stability, energy, strength);
+      this.#saveStats();
     }, 1000);
   }
 }
