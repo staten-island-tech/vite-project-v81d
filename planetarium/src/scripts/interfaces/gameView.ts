@@ -115,7 +115,7 @@ export default class GameInterface {
     appContainer: HTMLDivElement,
     themeSwitcher: any,
     pet: Record<string, any>,
-    asteroidSpawner: any
+    asteroidSpawner: any,
   ) {
     this.#appContainer = appContainer;
     this.#themeSwitcher = themeSwitcher;
@@ -207,14 +207,14 @@ export default class GameInterface {
           </div>
         </div>
       </div>
-      `
+      `,
     );
 
     this.#gameInterfaceTopPanel = this.#gameInterface!.querySelector(
-      ".game-interface__top-panel"
+      ".game-interface__top-panel",
     ) as HTMLDivElement;
     this.#themeSwitcherButton = this.#gameInterfaceTopPanel.querySelector(
-      "#theme-switcher-panel-action"
+      "#theme-switcher-panel-action",
     ) as HTMLLIElement;
     this.#themeSwitcher.attachClickAction(this.#themeSwitcherButton);
   }
@@ -248,7 +248,7 @@ export default class GameInterface {
           <h2 class="text-lg">${this.#pet.description}</h2>
         </div>
       </div>
-      `
+      `,
     ); // append to upper row
   }
 
@@ -261,11 +261,11 @@ export default class GameInterface {
         <div class="stats-viewer__stats-list"></div>
         <div class="stats-viewer__stat-buttons"></div>
       </div>
-      `
+      `,
     );
 
     this.#statsList = this.#columns![0].querySelector(
-      ".stats-viewer .stats-viewer__stats-list"
+      ".stats-viewer .stats-viewer__stats-list",
     )!;
 
     for (const [stat, properties] of Object.entries(this.#stats)) {
@@ -277,7 +277,7 @@ export default class GameInterface {
       <div class="stat-row__progress-bar" data-name="progress-outline">
         <div class="progress-bar__progress" style="width: ${Math.max(
           0,
-          Math.min(100, properties.value)
+          Math.min(100, properties.value),
         )}%;" data-name="progress-bar"></div>
       </div>
       <p class="text-right w-8" data-name="value">${
@@ -290,7 +290,7 @@ export default class GameInterface {
     }
 
     const statButtons: HTMLDivElement = this.#columns![0].querySelector(
-      ".stats-viewer .stats-viewer__stat-buttons"
+      ".stats-viewer .stats-viewer__stat-buttons",
     )!;
 
     for (const [stat, properties] of Object.entries(this.#stats)) {
@@ -309,19 +309,19 @@ export default class GameInterface {
             properties.value += properties.increaseBy;
 
             properties.rowElement!.querySelector(
-              "[data-name='value']"
+              "[data-name='value']",
             )!.textContent =
               (properties.value < 0 ? "" : "+") + properties.value;
 
             properties.rowElement!.querySelector(
-              "[data-name='progress-bar']"
+              "[data-name='progress-bar']",
             ).style.width = `${Math.max(0, Math.min(100, properties.value))}%`;
 
             properties.lastIncreased = Date.now();
 
             this.#createLogItem(
               greenColor,
-              `You have increased your planet's ${stat}!`
+              `You have increased your planet's ${stat}!`,
             );
 
             let countdownInterval: any;
@@ -342,14 +342,14 @@ export default class GameInterface {
             this.#createLogItem(
               purpleColor,
               `Please wait ${(timeLeft / 1000).toFixed(
-                3
-              )} seconds before increasing your pet's ${stat}!`
+                3,
+              )} seconds before increasing your pet's ${stat}!`,
             );
           }
         } else {
           this.#createLogItem(
             purpleColor,
-            `Your planet's ${stat} is already optimal!`
+            `Your planet's ${stat} is already optimal!`,
           );
         }
       });
@@ -369,15 +369,15 @@ export default class GameInterface {
         <div class="log-view__log-content">
           <p>${this.#createTimestamp(
             "log-item__date",
-            ""
+            "",
           )} Welcome to the observatory. Nurture your planet and help it grow!</p>
         </div>
       </div>
-      `
+      `,
     );
 
     this.#logContent = this.#columns![1].querySelector(
-      ".log-view .log-view__log-content"
+      ".log-view .log-view__log-content",
     )!;
   }
 
@@ -391,7 +391,7 @@ export default class GameInterface {
 
   #createTimestamp(className: string, style: string) {
     return `<span class="${className}" style="${style}">[${new Date(
-      Date.now()
+      Date.now(),
     ).toLocaleString()}]</span>`;
   }
 
@@ -400,7 +400,7 @@ export default class GameInterface {
       "beforeend",
       `
       <p>${this.#createTimestamp("log-item__date", style)} ${message}</p>
-      `
+      `,
     );
 
     this.#logContent!.scrollTop = this.#logContent!.scrollHeight;
@@ -408,7 +408,7 @@ export default class GameInterface {
 
   #createStatInterval(
     stat: Record<string, any>,
-    interval: Record<string, any>
+    interval: Record<string, any>,
   ) {
     interval.intervalID = setInterval(() => {
       stat.value += interval.changeBy!;
@@ -417,25 +417,24 @@ export default class GameInterface {
       stat.rowElement!.querySelector("[data-name='value']").textContent =
         (stat.value < 0 ? "" : "+") + stat.value;
 
-      stat.rowElement!.querySelector(
-        "[data-name='progress-bar']"
-      ).style.width = `${Math.max(0, Math.min(100, stat.value))}%`;
+      stat.rowElement!.querySelector("[data-name='progress-bar']").style.width =
+        `${Math.max(0, Math.min(100, stat.value))}%`;
     }, interval.tickRate!);
   }
 
   #checkStat(
     name: string,
     stat: Record<string, any>,
-    intervals: Record<string, any>
+    intervals: Record<string, any>,
   ) {
     const rules = statRules[name];
     const value = stat.value;
 
     const progressOutline = stat.rowElement!.querySelector(
-      "[data-name='progress-outline']"
+      "[data-name='progress-outline']",
     ) as HTMLDivElement;
     const progressBar = stat.rowElement!.querySelector(
-      "[data-name='progress-bar']"
+      "[data-name='progress-bar']",
     ) as HTMLDivElement;
 
     if (value <= 0) {
@@ -461,7 +460,7 @@ export default class GameInterface {
 
       this.#createLogItem(
         darkRedColor,
-        `Your planet has collapsed due to a depletion of ${stat.name}. The game will restart in 5 seconds. ☹`
+        `Your planet has collapsed due to a depletion of ${stat.name}. The game will restart in 5 seconds. ☹`,
       );
       setTimeout(() => {
         this.fadeOut();
@@ -517,24 +516,42 @@ export default class GameInterface {
         const startPosition: { top: string; left: string } =
           this.#asteroidSpawner.getRandomStartPosition();
 
-        const hit: boolean | void = await this.#asteroidSpawner.spawnAsteroid(
-          this.#appContainer,
-          startPosition
-        );
-
         this.#createLogItem(
           redColor,
-          "An asteroid has spawned! Hit it before it fades away!"
+          "An asteroid has spawned! Hit it before it fades away!",
         );
 
-        if (hit === true) {
-          this.#createLogItem(
-            greenColor,
-            "You saved your planet from an asteroid. Great job!"
-          );
-        } else {
-          this.#createLogItem(redColor, "Your planet got hit by an asteroid!");
-        }
+        this.#asteroidSpawner
+          .spawnAsteroid(this.#gameBox, startPosition)
+          .then((hit: boolean) => {
+            if (hit === true) {
+              this.#createLogItem(
+                greenColor,
+                "You saved your planet from an asteroid. Great job!",
+              );
+            } else {
+              this.#createLogItem(
+                redColor,
+                "Your planet got hit by an asteroid! Your stability has decreased by 10.",
+              );
+
+              this.#stats.stability.value = Math.max(
+                0,
+                this.#stats.stability.value - 10,
+              );
+
+              this.#stats.stability.rowElement!.querySelector(
+                "[data-name='value']",
+              ).textContent =
+                (this.#stats.stability.value < 0 ? "" : "+") +
+                this.#stats.stability.value;
+
+              this.#stats.stability.rowElement!.querySelector(
+                "[data-name='progress-bar']",
+              ).style.width =
+                `${Math.max(0, Math.min(100, this.#stats.stability.value))}%`;
+            }
+          });
       }
 
       this.#score! += 1;

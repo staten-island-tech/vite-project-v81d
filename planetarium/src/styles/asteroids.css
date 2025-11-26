@@ -1,11 +1,14 @@
 .asteroid-wrapper {
+  @apply w-[10vw] max-w-[200px];
   z-index: 9999;
   position: fixed;
 }
 
 .asteroid-wrapper__image {
-  width: 200px;
-  transition: opacity 0.2s ease, transform 0.1s ease;
+  @apply w-full;
+  transition:
+    opacity 0.2s ease,
+    transform 0.1s ease;
 }
 
 .asteroid-wrapper__image:active {

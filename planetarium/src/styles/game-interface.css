@@ -82,7 +82,7 @@
 }
 
 .pet-viewer__image {
-  @apply h-[100%];
+  @apply h-[20vh] max-w-full;
 }
 
 .stats-viewer {

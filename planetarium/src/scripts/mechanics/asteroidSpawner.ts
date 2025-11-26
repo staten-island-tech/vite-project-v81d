@@ -1,10 +1,10 @@
 const images = import.meta.glob(
-  "/public/images/asteroids/*.{png,jpg,jpeg,gif}"
+  "/src/assets/images/asteroids/*.{png,jpg,jpeg,gif}",
 );
 
 const asteroidImages: string[] = Object.keys(images);
 
-const asteroidProbabilityPerTick = 0.05;
+const asteroidProbabilityPerTick = 0.1;
 
 export default class AsteroidSpawner {
   shouldSpawnAsteroid(): boolean {
@@ -16,9 +16,9 @@ export default class AsteroidSpawner {
   }
 
   async spawnAsteroid(
-    appContainer: any,
-    startPosition: { top: string; left: string }
-  ): Promise<boolean | void> {
+    container: any,
+    startPosition: { top: string; left: string },
+  ): Promise<boolean> {
     const randomIndex = Math.floor(Math.random() * asteroidImages.length);
     const asteroidPath = asteroidImages[randomIndex];
 
@@ -40,28 +40,30 @@ export default class AsteroidSpawner {
     const moveDuration = this.#addMoveAsteroidKeyframes(
       startPosition,
       endPosition,
-      animationName
+      animationName,
     );
 
     asteroidDiv.style.animation = `${animationName} ${moveDuration}s linear forwards`;
 
-    asteroidDiv.addEventListener("click", () => {
-      asteroidImage.style.opacity = "0";
-      setTimeout(() => {
-        asteroidDiv.remove();
-        return true;
-      }, 200);
-    });
-
     asteroidDiv.append(asteroidImage);
-    appContainer.append(asteroidDiv);
+    container.append(asteroidDiv);
 
-    asteroidDiv.addEventListener("animationend", () => {
-      asteroidImage.style.opacity = "0";
-      setTimeout(() => {
-        asteroidDiv.remove();
-        return false;
-      }, 200);
+    return new Promise((resolve) => {
+      asteroidDiv.addEventListener("click", () => {
+        asteroidImage.style.opacity = "0";
+        setTimeout(() => {
+          asteroidDiv.remove();
+          resolve(true); // asteroid was hit
+        }, 200);
+      });
+
+      asteroidDiv.addEventListener("animationend", () => {
+        asteroidImage.style.opacity = "0";
+        setTimeout(() => {
+          asteroidDiv.remove();
+          resolve(false); // asteroid was not hit
+        }, 200);
+      });
     });
   }
 
@@ -80,16 +82,16 @@ export default class AsteroidSpawner {
           top: "-100px",
           left: `${clamp(
             Math.random() * windowWidth,
-            100,
-            windowWidth - 100
+            400,
+            windowWidth - 400,
           )}px`,
         };
       case 1: // right edge
         return {
           top: `${clamp(
             Math.random() * windowHeight,
-            100,
-            windowHeight - 100
+            400,
+            windowHeight - 400,
           )}px`,
           left: `${windowWidth + 100}px`,
         };
@@ -98,16 +100,16 @@ export default class AsteroidSpawner {
           top: `${windowHeight + 100}px`,
           left: `${clamp(
             Math.random() * windowWidth,
-            100,
-            windowWidth - 100
+            400,
+            windowWidth - 400,
           )}px`,
         };
       case 3: // left edge
         return {
           top: `${clamp(
             Math.random() * windowHeight,
-            100,
-            windowHeight - 100
+            400,
+            windowHeight - 400,
           )}px`,
           left: `-100px`,
         };
@@ -145,7 +147,7 @@ export default class AsteroidSpawner {
   #addMoveAsteroidKeyframes(
     startPosition: { top: string; left: string },
     endPosition: { top: string; left: string },
-    animationName: string
+    animationName: string,
   ) {
     const style = document.createElement("style");
     document.head.appendChild(style);
