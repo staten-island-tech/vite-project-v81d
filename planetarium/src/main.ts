@@ -62,3 +62,5 @@ dotBackground.generateBackground(50, true);
 
 gameView.build();
 gameView.fadeIn();
+
+gameView.startGameLoop();

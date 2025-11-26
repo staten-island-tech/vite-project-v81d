@@ -1,12 +1,12 @@
 const stabilityInterval: Record<string, number | null> = {
   intervalID: null,
-  tickRate: 10000,
+  tickRate: 5000,
   changeBy: -1,
 };
 
 const energyInterval: Record<string, number | null> = {
   intervalID: null,
-  tickRate: 8000,
+  tickRate: 7000,
   changeBy: -2,
 };
 
@@ -34,7 +34,7 @@ export default class GameInterface {
   constructor(
     appContainer: HTMLDivElement,
     themeSwitcher: any,
-    pet: Record<string, any>,
+    pet: Record<string, any>
   ) {
     this.#appContainer = appContainer;
     this.#themeSwitcher = themeSwitcher;
@@ -106,14 +106,14 @@ export default class GameInterface {
           </button>
         </div>
       </div>
-      `,
+      `
     );
 
     this.#gameInterfaceTopPanel = this.#gameInterface!.querySelector(
-      ".game-interface__top-panel",
+      ".game-interface__top-panel"
     ) as HTMLDivElement;
     this.#themeSwitcherButton = this.#gameInterfaceTopPanel.querySelector(
-      "#theme-switcher-panel-action",
+      "#theme-switcher-panel-action"
     ) as HTMLLIElement;
     this.#themeSwitcher.attachClickAction(this.#themeSwitcherButton);
   }
@@ -147,7 +147,7 @@ export default class GameInterface {
           <h2 class="text-lg">${this.#pet.description}</h2>
         </div>
       </div>
-      `,
+      `
     ); // append to upper row
   }
 
@@ -160,11 +160,11 @@ export default class GameInterface {
         <div class="stats-viewer__stats-list"></div>
         <div class="stats-viewer__stat-buttons"></div>
       </div>
-      `,
+      `
     );
 
     this.#statsList = this.#columns![0].querySelector(
-      ".stats-viewer .stats-viewer__stats-list",
+      ".stats-viewer .stats-viewer__stats-list"
     )!;
 
     for (const [stat, properties] of Object.entries(this.#stats)) {
@@ -174,9 +174,9 @@ export default class GameInterface {
       statRow.innerHTML = `
       <p class="w-[25%]" data-name="title">${properties.name}</p>
       <div class="stat-row__progress-bar">
-        <div class="progress-bar__progress" style="width: ${Math.min(
-          100,
-          properties.value,
+        <div class="progress-bar__progress" style="width: ${Math.max(
+          0,
+          Math.min(100, properties.value)
         )}%;" data-name="progress-bar"></div>
       </div>
       <p class="text-right w-8" data-name="value">${
@@ -189,7 +189,7 @@ export default class GameInterface {
     }
 
     const statButtons: HTMLDivElement = this.#columns![0].querySelector(
-      ".stats-viewer .stats-viewer__stat-buttons",
+      ".stats-viewer .stats-viewer__stat-buttons"
     )!;
 
     for (const [stat, properties] of Object.entries(this.#stats)) {
@@ -211,16 +211,17 @@ export default class GameInterface {
       <div class="log-view">
         <h2 class="text-3xl font-bold">Event Log</h2>
         <div class="log-view__log-content">
-          <p><span class="log-item__date">[${new Date(
-            Date.now(),
-          ).toLocaleString()}]</span> Welcome to the observatory. Nurture your planet and help it grow!</p>
+          <p>${this.#createTimestamp(
+            "log-item__date",
+            ""
+          )} Welcome to the observatory. Nurture your planet and help it grow!</p>
         </div>
       </div>
-      `,
+      `
     );
 
     this.#logContent = this.#columns![1].querySelector(
-      ".log-view .log-view__log-content",
+      ".log-view .log-view__log-content"
     )!;
   }
 
@@ -232,9 +233,26 @@ export default class GameInterface {
     this.#gameInterface!.style.opacity = "0";
   }
 
+  #createTimestamp(className: string, style: string) {
+    return `<span class="${className}" style="${style}">[${new Date(
+      Date.now()
+    ).toLocaleString()}]</span>`;
+  }
+
+  #createLogItem(style: string, message: string) {
+    this.#logContent!.insertAdjacentHTML(
+      "beforeend",
+      `
+      <p>${this.#createTimestamp("log-item__date", style)} ${message}</p>
+      `
+    );
+
+    this.#logContent!.scrollTop = this.#logContent!.scrollHeight;
+  }
+
   #createStatInterval(
     stat: Record<string, any>,
-    interval: Record<string, number | null>,
+    interval: Record<string, number | null>
   ) {
     interval.intervalID = setInterval(() => {
       stat.value += interval.changeBy!;
@@ -242,10 +260,44 @@ export default class GameInterface {
 
       stat.rowElement!.querySelector("[data-name='value']")!.textContent =
         (stat.value < 0 ? "" : "+") + stat.value;
+
+      stat.rowElement!.querySelector(
+        "[data-name='progress-bar']"
+      ).style.width = `${Math.max(0, Math.min(100, stat.value))}%`;
     }, interval.tickRate!);
   }
 
   startGameLoop() {
-    this.#createStatInterval(this.#stats.stability!, stabilityInterval);
+    let stability: Record<string, any> = this.#stats.stability!;
+    let energy: Record<string, any> = this.#stats.energy!;
+    let strength: Record<string, any> = this.#stats.strength!;
+
+    this.#createStatInterval(stability, stabilityInterval);
+    this.#createStatInterval(energy, energyInterval);
+    this.#createStatInterval(strength, strengthInterval);
+
+    setInterval(() => {
+      if (stability.value < 25)
+        this.#createLogItem(
+          "color: oklch(63.7% 0.237 25.331);",
+          "Your planet is extremely unstable! Stabilize your pet as soon as possible!"
+        );
+      else if (stability.value < 65)
+        this.#createLogItem(
+          "color: oklch(76.9% 0.188 70.08);",
+          "Your planet is becoming unstable! Make sure to stabilize your pet."
+        );
+      
+      if (energy.value < 25)
+        this.#createLogItem(
+          "color: oklch(63.7% 0.237 25.331);",
+          "Your planet is extremely tired! Energize your pet as soon as possible!"
+        );
+      else if (energy.value < 65)
+        this.#createLogItem(
+          "color: oklch(76.9% 0.188 70.08);",
+          "Your planet is becoming tired! Make sure to energize your pet."
+        );
+    }, 1000);
   }
 }

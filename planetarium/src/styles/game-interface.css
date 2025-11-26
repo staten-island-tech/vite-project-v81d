@@ -66,7 +66,7 @@
 }
 
 .game-box__column:last-child {
-  @apply min-w-[50%] w-full;
+  @apply min-w-150 w-full;
 }
 
 .pet-viewer {
@@ -126,7 +126,7 @@
 }
 
 .log-view__log-content {
-  @apply overflow-scroll flex flex-col h-full;
+  @apply overflow-scroll flex flex-col gap-5 h-full;
 }
 
 .log-item__date {
