@@ -50,7 +50,7 @@ if (!localStorage.getItem("adoptedPet")) {
 } else pet = JSON.parse(localStorage.getItem("adoptedPet")!);
 
 // The following operations should occur directly after a pet has been selected
-let asteroidSpawner = new AsteroidSpawner(appContainer);
+let asteroidSpawner = new AsteroidSpawner();
 let gameView = new GameView(appContainer, themeSwitcher, pet!, asteroidSpawner);
 
 appContainer.innerHTML = "";
