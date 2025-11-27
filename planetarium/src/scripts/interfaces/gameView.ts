@@ -199,6 +199,7 @@ export default class GameInterface {
               localStorage.getItem("highScore") ?? 0
             }</p>
             <p id="score-label">Score ${localStorage.getItem("score") ?? 0}</p>
+            <p id="tier-label">Tier ${Math.floor(Math.log2((Number(localStorage.getItem("score")) ?? 0) / 60)) + 2}</p>
           </div>
           <div class="top-panel__buttons">
             <button id="theme-switcher-panel-action">
@@ -525,9 +526,10 @@ export default class GameInterface {
           .spawnAsteroid(this.#gameBox, startPosition)
           .then((hit: boolean) => {
             if (hit === true) {
+              this.#score! += 30;
               this.#createLogItem(
                 greenColor,
-                "You saved your planet from an asteroid. Great job!",
+                "You saved your planet from an asteroid. Great job! (+30 points)",
               );
             } else {
               this.#createLogItem(
@@ -563,6 +565,9 @@ export default class GameInterface {
 
       document.getElementById("score-label")!.textContent = `Score ${this
         .#score!}`;
+
+      document.getElementById("Tier-label")!.textContent =
+        `Tier ${Math.floor(Math.log2(this.#score! / 60)) + 2}`;
 
       this.#saveStats();
     }, 1000);
