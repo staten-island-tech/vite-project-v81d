@@ -1,8 +1,9 @@
-const images = import.meta.glob(
+const images: Record<string, string> = import.meta.glob(
   "/src/assets/images/asteroids/*.{png,jpg,jpeg,gif}",
+  { eager: true, query: "?url", import: "default" },
 );
 
-const asteroidImages: string[] = Object.keys(images);
+const asteroidImages: string[] = Object.values(images);
 
 const asteroidProbabilityPerTick = 0.1;
 
